@@ -1,9 +1,70 @@
-<!doctype html>
-<html>
-  <head>
-    <title>This is the title of the webpage!</title>
-  </head>
-  <body>
-    <p>This is an example paragraph. Anything in the <strong>body</strong> tag will appear on the page, just like this <strong>p</strong> tag and its contents.</p>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Drafts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .draft-entry {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .draft-entry h2 {
+            margin-top: 0;
+        }
+        .draft-entry a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .draft-entry a:hover {
+            text-decoration: underline;
+        }
+        .draft-date {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Drafts</h1>
+    </header>
+    
+    <main>
+        <!-- Draft 1 -->
+        <article class="draft-entry">
+            <h2><a href="drafts/draft1.html">Draft 1 Title</a></h2>
+            <p class="draft-date">June 15, 2024</p>
+            <p>A brief summary or excerpt from Draft 1. This gives readers a preview of what the draft is about.</p>
+        </article>
+
+        <!-- Draft 2 -->
+        <article class="draft-entry">
+            <h2><a href="drafts/draft2.html">Draft 2 Title</a></h2>
+            <p class="draft-date">June 20, 2024</p>
+            <p>A brief summary or excerpt from Draft 2. This gives readers a preview of what the draft is about.</p>
+        </article>
+        
+        <!-- Add more draft entries here as you create them -->
+    </main>
+</body>
 </html>
