@@ -12,6 +12,9 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         header {
             background-color: #f4f4f4;
@@ -42,6 +45,22 @@
             color: #7f8c8d;
             font-size: 0.9em;
         }
+        main {
+            flex: 1;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #f4f4f4;
+            margin-top: 2rem;
+        }
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -56,8 +75,11 @@
             <p class="draft-date">June 15, 2024</p>
             <p>A brief summary or excerpt from Draft 1. This gives readers a preview of what the draft is about.</p>
         </article>
-
         <!-- Add more draft entries here as you create them -->
     </main>
+
+    <footer>
+        <p><a href="https://github.com/fischer36" target="_blank">GitHub</a></p>
+    </footer>
 </body>
 </html>
