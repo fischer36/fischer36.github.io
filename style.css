@@ -175,6 +175,14 @@ main {
     flex: 1 1 auto;
 }
 
+.page-title h2{
+    font-size: 1.7rem;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0;
+    flex: 1 1 auto;
+    color: var(--red);
+}
 .draft-content {
     max-width: 1500px;
     margin: 2rem auto;
