@@ -7,6 +7,7 @@
     --fg0: #fbf1c7;
     --fg1: #ebdbb2;
     --fg2: #d5c4a1;
+    --fg3: #f5c4a1;
     --red: #cc241d;
     --green: #98971a;
     --yellow: #d79921;
@@ -42,6 +43,8 @@ nav {
     display: flex;
     align-items: center;
     z-index: 1000;
+
+    text-decoration: none; /* Remove underline */
 }
 
 .nav-content {
@@ -50,6 +53,8 @@ nav {
     justify-content: space-between;
     align-items: center;
     color: var(--yellow);
+
+    text-decoration: none; /* Remove underline */
 }
 
 nav ul {
@@ -59,10 +64,12 @@ nav ul {
     display: flex;
     align-items: center;
     height: 100%;
+
+    text-decoration: none; /* Remove underline */
 }
 nav a {
 
-    color: var(--red);
+    color: var(--yellow);
     text-decoration: none; /* Remove underline */
     font-size: 1.3rem; /* Set font size */
     padding: 10px 10px; /* Padding to increase clickable area */
@@ -75,7 +82,6 @@ nav a {
 /* Space out the list items */
 nav li {
     margin: 0 15px; /* Horizontal spacing between each list item */
-
     text-decoration: none; /* Remove underline */
 }
 
@@ -90,16 +96,11 @@ nav li {
 .nav-button:hover {
     background-color: var(--bg1);
     color: var(--yellow);
+
+    text-decoration: none; /* Remove underline */
 }
 /* Navbar */
 /* Removing redundant rules such as :visited and :link as they are not adding any specific styles different from the base */
-
-.site-title {
-    color: var(--yellow);
-    margin: 0;
-    font-size: 1.8rem;
-    text-decoration: none;
-}
 
 header {
     padding: 2rem;
@@ -131,14 +132,15 @@ main {
 }
 
 .draft-entry a {
-    color: var(--yellow);
+    color: var(--red);
+    font-size: 1.3rem;
+
     text-decoration: none;
-    font-size: 1.2rem;
 }
 
 
 .draft-date {
-    color: var(--fg0);
+    color: var(--orange);
     font-size: 1rem;
     margin: 0;
     flex: 0 0 auto;
@@ -154,7 +156,7 @@ main {
     justify-content: space-between;
     align-items: baseline;
     flex-wrap: wrap;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.4rem;
     border-bottom: 2px solid var(--bg2);
     padding-bottom: 1rem;
 
@@ -163,9 +165,9 @@ main {
 
 .page-title {
     color: var(--red) !important;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     text-decoration: none;
-    font-weight: bold;
+    /*font-weight: bold;*/
     margin: 0;
     /*flex: 1 1 auto;*/
 }
@@ -175,35 +177,31 @@ main {
     color: var(--red);
 }*/
 .draft-content {
-    min-width : 1500px;
     margin: auto auto;
     padding: 0 0x;
-    background-color: var(--bg1);
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    background-color: none;
 }
 
 .draft-content article {
-    /*max-width: 1500px;*/
     margin: 2rem auto;
     padding: 2rem;
-    color: var(--yellow);
+    color: var(--fg0);
 }
 
 h3, .draft-content h2 {
-    color: var(--fg1);
+    color: var(--fg0);
     margin-top: 2rem;
     margin-bottom: 1rem;
     font-weight: normal;
 }
 
 .draft-content h2 {
-    color: var(-);
+    color: var(--yellow);
 }
 
 .draft-content b {
-    color: var(--red);
-    font-weight: normal;
+    color: var(--fg3);
+    font-weight: bold;
 }
 
 .draft-content p {
@@ -230,6 +228,7 @@ footer {
     text-align: center;
     padding: 1rem;
     background-color: var(--bg1);
+    text-decoration: none;
 }
 
 .footer-icons {
@@ -237,23 +236,29 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 1rem;
+
+    text-decoration: none;
 }
 
 .footer-icons a, footer a {
-    color: var(--green);
+    color: var(--fg0);
     text-decoration: none;
     transition: color 0.3s ease;
-    font-size: 1.5rem;
+    font-size: 0.5rem;
     display: inline-flex;
     align-items: center;
 }
 
 .footer-icons a:hover, footer a:hover {
-    color: var(--yellow);
+    color: var(--fg0);
+
+    text-decoration: none;
 }
 
 footer a i {
     margin-right: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 3.0rem;
+
+    text-decoration: none;
 }
 
