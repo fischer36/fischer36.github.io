@@ -3,83 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Drafts</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        header {
-            background-color: #f4f4f4;
-            padding: 1rem;
-            text-align: center;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        .draft-entry {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .draft-entry h2 {
-            margin-top: 0;
-        }
-        .draft-entry a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        .draft-entry a:hover {
-            text-decoration: underline;
-        }
-        .draft-date {
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-        main {
-            flex: 1;
-        }
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: #f4f4f4;
-            margin-top: 2rem;
-        }
-        footer a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Fischer's Lab</title>
+    <link rel="stylesheet" href="style.css">
+<script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
+    <script src="index.js" defer></script>
 </head>
 <body>
+<nav>
+    <div class="nav-content">
+        <h1 class="site-title">Fischer's Lab</h1>
+        <ul>
+
+            <li><a href="index.html" class="nav-button">Home</a></li>
+            <li><a href="about.html" class="nav-button">About</a></li>
+            <!-- Removed the commented-out link for clarity -->
+        </ul>
+    </div>
+</nav>
     <header>
-        <h1>My Drafts</h1>
+        <h2 class="page-title">Latest Posts</h2>
     </header>
     
-    <main>
-        <!-- Draft 1 -->
-        <article class="draft-entry">
-            <h2><a href="drafts/draft1.html">Draft 1 Title</a></h2>
-            <p class="draft-date">June 15, 2024</p>
-            <p>A brief summary or excerpt from Draft 1. This gives readers a preview of what the draft is about.</p>
-        </article>
-        <!-- Add more draft entries here as you create them -->
+    <main id="drafts-container">
+        <!-- Draft entries will be dynamically added here -->
     </main>
-
     <footer>
-        <p><a href="https://github.com/fischer36" target="_blank">GitHub</a></p>
+ <div class="footer-icons">
+            <a href="https://github.com/fischer36" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <!--<a href="https://discord.gg/your-discord-invite" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>-->
+        </div>
     </footer>
 </body>
 </html>
