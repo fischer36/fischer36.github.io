@@ -45,8 +45,6 @@ nav {
 }
 
 .nav-content {
-    max-width: 1400px;
-    width: 95%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -64,22 +62,15 @@ nav ul {
 }
 nav a {
 
-    color: var(--yellow);
+    color: var(--red);
     text-decoration: none; /* Remove underline */
-    font-size: 1.1rem; /* Set font size */
-    padding: 5px 10px; /* Padding to increase clickable area */
+    font-size: 1.3rem; /* Set font size */
+    padding: 10px 10px; /* Padding to increase clickable area */
     border-radius: 5px; /* Rounded corners for aesthetics */
     transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
 
 }
 
-nav ul {
-    list-style: none; /* Remove bullet points */
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
-    display: flex; /* Align list items in a row */
-font-weight: bold;
-}
 
 /* Space out the list items */
 nav li {
@@ -120,7 +111,6 @@ header {
 
 main {
     max-width: 1200px;
-    width: 95%;
     margin: 3rem auto;
     padding: 0 30px;
     flex: 1;
@@ -173,7 +163,7 @@ main {
 
 .page-title {
     color: var(--red) !important;
-    font-size: 0.2rem;
+    font-size: 1.6rem;
     text-decoration: none;
     font-weight: bold;
     margin: 0;
@@ -185,9 +175,7 @@ main {
     color: var(--red);
 }*/
 .draft-content {
-    max-width: 1500px;
     min-width : 1500px;
-    min-height : 1500px;
     margin: auto auto;
     padding: 0 0x;
     background-color: var(--bg1);
@@ -196,9 +184,7 @@ main {
 }
 
 .draft-content article {
-  width: 100%;
     /*max-width: 1500px;*/
-    min-width: 4500px;
     margin: 2rem auto;
     padding: 2rem;
     color: var(--yellow);
