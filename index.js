@@ -41,7 +41,8 @@ function extractSummaryFromHTML(html) {
   if (contentElement) {
     const paragraphs = contentElement.querySelectorAll('p');
     for (let p of paragraphs) {
-      if (p.textContent.trim() && !p.classList.contains('draft-date')) {
+
+if (p.textContent.trim() && !p.classList.contains('draft-date') && !p.classList.contains('page-tags')) {
         return p.textContent.trim().slice(0, 150) + '...';
       }
     }

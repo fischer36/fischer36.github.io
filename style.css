@@ -17,6 +17,10 @@
     --orange: #d65d0e;
     --navbar-height: 80px;
 }
+a {
+color: var(--orange);
+text-decoration: none;
+}
 
 body {
     /*font-family: 'Roboto', Arial, sans-serif;*/
@@ -132,15 +136,15 @@ main {
 }
 
 .draft-entry a {
-    color: var(--red);
-    font-size: 1.3rem;
+    color: var(--fg1);
+    font-size: 1.1rem;
 
     text-decoration: none;
 }
 
 
 .draft-date {
-    color: var(--orange);
+    color: var(--yellow);
     font-size: 1rem;
     margin: 0;
     flex: 0 0 auto;
@@ -163,14 +167,6 @@ main {
     color: var(--yellow);
 }
 
-.page-title {
-    color: var(--red) !important;
-    font-size: 1.4rem;
-    text-decoration: none;
-    /*font-weight: bold;*/
-    margin: 0;
-    /*flex: 1 1 auto;*/
-}
 
 /* Remove or comment out this rule if it exists */
 /*.page-title h2 {
@@ -212,16 +208,19 @@ h3, .draft-content h2 {
 pre, .draft-content pre {
     background-color: var(--bg0);
     border: 1px solid var(--bg2);
-    border-radius: 5px;
-    padding: 1rem;
+    /*border-radius: 5px;*/
+
+    align-items: center;
+    padding: 0.3rem 1rem;
     overflow-x: auto;
 }
 
 code {
     background-color: transparent;
-    border-radius: 4px;
-    font-size: 0.8em;
+    font-size: 1.7em;
     color: var(--fg0);
+
+    align-items: center;
 }
 
 footer {
@@ -261,4 +260,56 @@ footer a i {
 
     text-decoration: none;
 }
+.title-date-container {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    width: 100%;
+}
 
+.title-and-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.page-title,
+.draft-date {
+    margin: 0; /* Removes default margin */
+    /*padding: 2.0 em 0; /* Adds some vertical padding for visual spacing */*/
+}
+
+.page-title {
+    color: var(--red) !important;
+    font-size: 1.4rem;
+    text-decoration: none;
+    /*font-weight: bold;*/
+    margin: 0;
+    /*flex: 1 1 auto;*/
+}
+
+.draft-date {
+    flex-shrink: 0; /* Prevents the date from shrinking */
+    color: var(--yellow);
+    margin: 0.6rem 0;
+    font-size: 1rem;
+}
+
+.tag-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows tags to wrap onto the next line if space runs out */
+    gap: 0.1em; /* Spaces out tags slightly */
+}
+
+.page-tags {
+    display: inline-block; /* Inline display for seamless flow */
+    background-color: var(--orange); /* Dark blue background */
+    color: white; /* White text for contrast */
+    border: 1px solid black; /* Subtle border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 0.1rem; /* Compact padding */
+    font-size: 0.7rem; /* Smaller font size */
+    margin-right: 5px; /* Space between tags */
+    margin-bottom: 5px; /* Vertical spacing for separation */
+}
