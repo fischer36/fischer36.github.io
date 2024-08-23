@@ -84,7 +84,7 @@ async function renderDrafts() {
     article.className = 'draft-entry';
     article.innerHTML = `
       <div class="title-date-container">
-        <h2><a href="${draftInfo.link}">${draftInfo.title}</a></h2>
+        <h2 class="page-title"><a href="${draftInfo.link}">${draftInfo.title}</a></h2>
         <p class="draft-date">${draftInfo.date}</p>
       </div>
       <p>${draftInfo.summary}</p>
