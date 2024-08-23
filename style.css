@@ -18,7 +18,7 @@
 }
 
 body {
-    font-family: 'Roboto', Arial, sans-serif;
+    /*font-family: 'Roboto', Arial, sans-serif;*/
     line-height: 1.6;
     color: var(--fg1);
     margin: 0;
@@ -29,7 +29,7 @@ body {
     background-color: var(--bg0);
     padding-top: var(--navbar-height);
 }
-
+/* Navbar */
 nav {
     position: fixed;
     top: 0;
@@ -51,13 +51,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.site-title {
     color: var(--yellow);
-    margin: 0;
-    font-size: 1.8rem;
-    text-decoration: none;
 }
 
 nav ul {
@@ -68,10 +62,30 @@ nav ul {
     align-items: center;
     height: 100%;
 }
+nav a {
 
-nav ul li {
-    margin-left: 1.5rem;
-    text-decoration: none;
+    color: var(--yellow);
+    text-decoration: none; /* Remove underline */
+    font-size: 1.1rem; /* Set font size */
+    padding: 5px 10px; /* Padding to increase clickable area */
+    border-radius: 5px; /* Rounded corners for aesthetics */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+
+}
+
+nav ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Align list items in a row */
+font-weight: bold;
+}
+
+/* Space out the list items */
+nav li {
+    margin: 0 15px; /* Horizontal spacing between each list item */
+
+    text-decoration: none; /* Remove underline */
 }
 
 .nav-button {
@@ -82,15 +96,18 @@ nav ul li {
     font-size: 1.1rem;
     text-decoration: none;
 }
-
-.nav-button:visited,
-.nav-button:link {
-    text-decoration: none;
-}
-
 .nav-button:hover {
     background-color: var(--bg1);
-    color: var(--green);
+    color: var(--yellow);
+}
+/* Navbar */
+/* Removing redundant rules such as :visited and :link as they are not adding any specific styles different from the base */
+
+.site-title {
+    color: var(--yellow);
+    margin: 0;
+    font-size: 1.8rem;
+    text-decoration: none;
 }
 
 header {
@@ -108,39 +125,40 @@ main {
     padding: 0 30px;
     flex: 1;
 }
+/* Existing styles */
 
 .draft-entry {
     background-color: var(--bg1);
     border: 1px solid var(--bg2);
     border-radius: 8px;
-    padding: 30px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.draft-entry:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .draft-entry h2 {
-    margin-top: 0;
-    color: var(--yellow);
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    margin: 0 0 10px;
+    font-size: 1.5rem;
 }
 
-.draft-entry .draft-date {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
+.draft-entry a {
+    color: var(--yellow);
+    text-decoration: none;
+    font-size: 1.2rem;
 }
+
+
+.draft-date {
+    color: var(--fg0);
+    font-size: 1rem;
+    margin: 0;
+    flex: 0 0 auto;
+}
+
 
 .draft-entry p {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.5;
 }
-
 .title-date-container {
     display: flex;
     justify-content: space-between;
@@ -150,50 +168,37 @@ main {
     border-bottom: 2px solid var(--bg2);
     padding-bottom: 1rem;
 
-    color: var(--green);
-}
-
-.title-date-container b {
-    color: var(--green);
-    transition: color 0.3s ease;
-}
-
-.draft-date {
-    color: var(--fg2);
-    font-size: 1rem;
-    margin: 0;
-    flex: 0 0 auto;
-    font-style: italic;
+    color: var(--yellow);
 }
 
 .page-title {
-    color: var(--red);
-    font-size: 1.7rem;
+    color: var(--red) !important;
+    font-size: 0.2rem;
     text-decoration: none;
     font-weight: bold;
     margin: 0;
-    flex: 1 1 auto;
+    /*flex: 1 1 auto;*/
 }
 
-.page-title h2{
-    font-size: 1.7rem;
-    text-decoration: none;
-    font-weight: bold;
-    margin: 0;
-    flex: 1 1 auto;
+/* Remove or comment out this rule if it exists */
+/*.page-title h2 {
     color: var(--red);
-}
+}*/
 .draft-content {
     max-width: 1500px;
-    margin: 2rem auto;
-    padding: 0 20px;
+    min-width : 1500px;
+    min-height : 1500px;
+    margin: auto auto;
+    padding: 0 0x;
     background-color: var(--bg1);
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .draft-content article {
-    max-width: 1500px;
+  width: 100%;
+    /*max-width: 1500px;*/
+    min-width: 4500px;
     margin: 2rem auto;
     padding: 2rem;
     color: var(--yellow);
@@ -207,7 +212,7 @@ h3, .draft-content h2 {
 }
 
 .draft-content h2 {
-    color: var(--yellow);
+    color: var(-);
 }
 
 .draft-content b {
@@ -266,82 +271,3 @@ footer a i {
     font-size: 1.2rem;
 }
 
-@media (max-width: 1600px) {
-    .title-date-container {
-        flex-direction: column;
-        align-items: flex-start;
-        color: var(--yellow);
-    }
-
-    .draft-date {
-        color: var(--yellow);
-        margin-top: 0.5rem;
-    }
-}
-
-@media (max-width: 1400px) {
-    :root {
-        --navbar-height: 120px;
-    }
-
-    .nav-content, main, header {
-        width: 90%;
-    }
-
-    nav ul {
-        margin-top: 0.5rem;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-    }
-
-    nav ul li {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    .site-title {
-        margin-bottom: 0.5rem;
-    }
-
-    body {
-        padding-top: var(--navbar-height);
-    }
-}
-
-@media (max-width: 768px) {
-    .nav-content, main, header {
-        width: 95%;
-    }
-
-    .draft-entry {
-        padding: 20px;
-    }
-}
-
-@media (max-width: 600px) {
-    .draft-content, .draft-content article {
-        padding: 1rem;
-    }
-
-    .draft-entry h2 {
-        font-size: 1.8rem;
-      color: var(--yellow);
-    }
-
-    main {
-        padding: 0 15px;
-    }
-
-    .title-date-container {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .page-title {
-        font-size: 1.5rem;
-        margin-right: 0;
-        margin-bottom: 0.5rem;
-      color: var(--yellow);
-    }
-}
