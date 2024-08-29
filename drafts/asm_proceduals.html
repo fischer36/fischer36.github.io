@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,35 +8,60 @@
     <script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
     <script src="../index.js" defer></script>
 </head>
+
 <body>
-<nav>
-    <ul>
-    <h1>Fischer's Lab</h1>
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../about.html">About</a></li>
-        <li><a href="https://github.com/fischer36" aria-label="Github"><i class="fab fa-github"></i></a></li>
-    </ul>
-</nav>
+    <nav>
+        <ul>
+            <h1>Fischer's Lab</h1>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="https://github.com/fischer36" aria-label="Github"><i class="fab fa-github"></i></a></li>
+        </ul>
+    </nav>
     <main class="draft-content">
         <article>
 
-<div class="title-date-container">
-    <div class="title-and-date">
-        <h1 class="page-title">Understanding assembly procedures</h1>
-        <p class="draft-date">Aug 22, 2024</p>
-    </div>
-    <div class="tag-container">
-        <span class="page-tags">Assembly</span>
-    </div>
-</div>
+            <div class="title-date-container">
+                <div class="title-and-date">
+                    <h1 class="page-title">Understanding assembly procedures</h1>
+                    <p class="draft-date">Aug 22, 2024</p>
+                </div>
+                <div class="tag-container">
+                    <span class="page-tags">Assembly</span>
+                </div>
+            </div>
             <h2>Procedural Definitions:</h2>
-            <p><b>Base Pointer (EBP/RBP)</b>: The base pointer is a register (<b>EBP</b> in 32-bit systems, <b>RBP</b> in 64-bit systems) that holds the memory address marking the <b>start of a function's stack frame</b>. It serves as a fixed reference point to access function parameters (above the base pointer) and local variables (below the base pointer).</p>
-            <p><b>Stack Pointer (ESP/RSP)</b>: The stack pointer is a register (<b>ESP</b> in 32-bit systems, <b>RSP</b> in 64-bit systems) that tracks the <b>top of the stack</b>. It is automatically updated by the CPU during <b>push</b> and <b>pop</b> operations. The stack grows <b>downwards in memory</b>—as more variables are pushed onto the stack, the stack pointer is decremented (moving to lower memory addresses). Conversely, it is incremented as values are popped off the stack.</p>
+            <p><b>Base Pointer (EBP/RBP)</b>: The base pointer is a register (<b>EBP</b> in 32-bit systems, <b>RBP</b>
+                in 64-bit systems) that holds the memory address marking the <b>start of a function's stack frame</b>.
+                It serves as a fixed reference point to access function parameters (above the base pointer) and local
+                variables (below the base pointer).</p>
+            <p><b>Stack Pointer (ESP/RSP)</b>: The stack pointer is a register (<b>ESP</b> in 32-bit systems, <b>RSP</b>
+                in 64-bit systems) that tracks the <b>top of the stack</b>. It is automatically updated by the CPU
+                during <b>push</b> and <b>pop</b> operations. The stack grows <b>downwards in memory</b>—as more
+                variables are pushed onto the stack, the stack pointer is decremented (moving to lower memory
+                addresses). Conversely, it is incremented as values are popped off the stack.</p>
             <h2>How It Works:</h2>
-            <p><b>Returns</b>: After a procedure finishes, it must <b>clean up its stack frame</b> so that the stack pointer (<b>ESP</b>/<b>RSP</b>) points to the <b>return address</b>, which was pushed onto the stack by the caller before the procedure was called. To return a value to the caller, the procedure <b>places the return value</b> in the <b>EAX</b> register (in 32-bit systems) or the <b>RAX</b> register (in 64-bit systems). This return value can then be accessed by the caller immediately after the procedure returns.</p>
-            <p><b>Parameters</b>: Parameters are passed by the caller either on the <b>stack</b> or via <b>registers</b> (depending on the architecture and calling convention). In 32-bit systems, parameters are typically pushed onto the stack and can be accessed by the called procedure as <b>offsets from the base pointer</b>. For example, the first parameter would be located at [<b>EBP + 8</b>].</p>
-            <p><b>Return Address</b>: When a procedure is called using the <b>call</b> instruction, the CPU automatically <b>pushes the return address</b> (the address of the next instruction in the caller) onto the stack. This return address will be used by the called procedure when it finishes execution, allowing the program to return control to the correct point in the caller.</p>
-            <p><b>Call and Ret</b>: The <b>call</b> instruction not only jumps to the target procedure but also <b>stores the return address</b> (the location of the next instruction after the call) onto the stack. When the procedure is ready to return, it uses the <b>ret</b> instruction to <b>pop the return address</b> off the stack and jump back to it. The <b>ret</b> instruction simply transfers control back to the caller by jumping to the return address, assuming the stack has been properly cleaned up by the procedure.</p>
+            <p><b>Returns</b>: After a procedure finishes, it must <b>clean up its stack frame</b> so that the stack
+                pointer (<b>ESP</b>/<b>RSP</b>) points to the <b>return address</b>, which was pushed onto the stack by
+                the caller before the procedure was called. To return a value to the caller, the procedure <b>places the
+                    return value</b> in the <b>EAX</b> register (in 32-bit systems) or the <b>RAX</b> register (in
+                64-bit systems). This return value can then be accessed by the caller immediately after the procedure
+                returns.</p>
+            <p><b>Parameters</b>: Parameters are passed by the caller either on the <b>stack</b> or via <b>registers</b>
+                (depending on the architecture and calling convention). In 32-bit systems, parameters are typically
+                pushed onto the stack and can be accessed by the called procedure as <b>offsets from the base
+                    pointer</b>. For example, the first parameter would be located at [<b>EBP + 8</b>].</p>
+            <p><b>Return Address</b>: When a procedure is called using the <b>call</b> instruction, the CPU
+                automatically <b>pushes the return address</b> (the address of the next instruction in the caller) onto
+                the stack. This return address will be used by the called procedure when it finishes execution, allowing
+                the program to return control to the correct point in the caller.</p>
+            <p><b>Call and Ret</b>: The <b>call</b> instruction not only jumps to the target procedure but also
+                <b>stores the return address</b> (the location of the next instruction after the call) onto the stack.
+                When the procedure is ready to return, it uses the <b>ret</b> instruction to <b>pop the return
+                    address</b> off the stack and jump back to it. The <b>ret</b> instruction simply transfers control
+                back to the caller by jumping to the return address, assuming the stack has been properly cleaned up by
+                the procedure.
+            </p>
             <h2>Example Usage:</h2>
             <code><pre><p>
 section .text
@@ -58,8 +84,16 @@ _start:
     int 0x80            ; syscall interrupt to exit program
             </p></pre></code>
             <h2>Experimenting:</h2>
-            <p>Understanding how functions work under the hood - down in assembly level - allows you to operate beyond the boundaries of any normal functions. By incorporating assembly code within your C or Rust programs, you gain the capability to directly manipulate return addresses, alter parameter values, and control the stack itself; breaking the fourth wall.</p>
+            <p>Understanding how functions work under the hood - down at the assembly level - allows you to operate
+                beyond
+                the boundaries of any normal functions. By incorporating assembly code within your C or Rust programs,
+                you gain the capability to directly manipulate return and parameter values and the stack itself;
+                breaking the fourth wall. If you are interested in learning more the
+                following demonstrates the topic in Rust using inline assembly:
+                <a href="https://github.com/fischer36/implicit-returns">Visit GitHub Repository</a>
+            </p>
         </article>
     </main>
 </body>
+
 </html>
