@@ -1,28 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
-    --bg0: #282828;
+    --bg0: #1d2021;
     --bg1: #3c3836;
-    --bg2: #504945;
-    --fg0: #fbf1c7;
-    --fg1: #ebdbb2;
-    --fg2: #d5c4a1;
-    --fg3: #f5c4a1;
-    --red: #cc241d;
-    --green: #98971a;
+    --bg2: #32302f;
+--fg0:  #fbf1c7;
+  --fg1: #ebdbb2;
+  --fg2: #d5c4a1;
+  --fg3: #bdae93;
+  --fg4: #a89984;
+    --red: #fb4934;
+    --green: #b8bb26;;
     --yellow: #d79921;
     --blue: #458588;
-    --purple: #b16286;
-    --aqua: #689d6a;
-    --orange: #d65d0e;
+    --purple: #d3869b;
+    --aqua: #8ec07c;
+    --orange: #fe8019;
     --navbar-height: 80px;
 }
+
+
 .navbar > ul > li a {
 
    text-decoration: none;
 }
 a {
    text-decoration: none;
+}
+@font-face {
+    font-family: "BigBlueTermPlus NerdFont";
+    src: url("./BigBlueTermPlusNerdFont-Regular.ttf");
 }
 body {
     line-height: 1.6;
@@ -34,7 +41,7 @@ body {
     min-height: 100vh;
     background-color: var(--bg0);
     padding-top: 25px;
-    /* Removed text-decoration: none; */
+    font-family: "BigBlueTermPlus NerdFont", regular;
 }
 
 /* Navbar */
@@ -58,7 +65,7 @@ nav {
     top: 0;
     left: 0;
     right: 0;
-    background-color: var(--bg1);
+    background-color: var(--bg2);
     padding: 0.5rem 1rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     height: var(--navbar-height);
@@ -73,7 +80,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: var(--fg1);
+    color: var(--fg0);
     /* Removed text-decoration: none; */
 }
 
@@ -96,7 +103,7 @@ nav li {
 nav a {
     color: var(--fg1);
     font-size: 1.1rem;
-    padding: 20px 20px;
+    padding: 20px 24px;
     border-radius: 0px;
     text-decoration: none;
     transition: color 0.3s ease;
@@ -110,7 +117,7 @@ nav a:link:active, a:visited:active {
   text-decoration: none;
 }
 nav a:hover {
-    color: var(--yellow);
+    color: var(--blue);
   text-decoration: none;
 }
 
@@ -138,8 +145,14 @@ nav a:hover {
     padding: 10px 10px;
     font-size: 1.4rem;
     margin: 30px 30px;
+
 }
 
+.draft-entry:hover {
+
+    background-color: var(--bg1);
+    transition: background-color 0.2s ease;
+}
 .draft-entry h2 {
     /* Removed invalid font-weight value */
     margin: 0px 0px;
@@ -153,7 +166,7 @@ nav a:hover {
     background-color: transparent;
     font-size: 1.0rem;
     text-decoration: none;
-    padding: 0.1rem 0.3rem;
+    padding: 0.0rem 0.3rem;
     transition: color 0.3s ease, text-decoration 0.3s ease;
 }
 
@@ -167,13 +180,13 @@ nav a:hover {
     line-height: 1.3;
     background-color: transparent;
     padding: 0.0rem 0.3rem;
-    margin: 0.1rem 0.1rem;
+    margin: 0.0rem 0.1rem;
 }
 
 .draft-entry p2 {
 
     font-size: 0.9rem;
-    padding: 0.3rem 0.3rem;
+    padding: 0.0rem 0.3rem;
 }
 /* Page Title */
 .page-title h2 {
@@ -182,11 +195,12 @@ nav a:hover {
 
 .page-title a {
     text-decoration: none;
-    transition: color 0.3s ease, text-decoration 0.3s ease;
+    color: var(--fg2);
+    transition: color 0.2s ease, text-decoration 0.2s ease;
 }
 
 .page-title a:hover {
-    color: var(--orange);
+    color: var(--yellow);
     text-decoration: underline;
 }
 
@@ -288,10 +302,10 @@ footer a i {
     display: contents;
     flex-direction: column; /* Corrected invalid display value */
     width: 100%;
-    margin: 0.1rem 0.1rem;
+    margin: 0.0rem 0.1rem;
     border-bottom: 1px solid var(--bg2);
     color: var(--red);
-    padding: 0.3rem 0.3rem;
+    padding: 0.0rem 0.3rem;
     align-items: center;
 }
 
@@ -307,16 +321,16 @@ footer a i {
 .page-title {
     color: var(--fg0) !important;
     background-color: transparent;
-    font-size: 1.4rem;
-    margin: 0.3rem 0.3rem;
+    font-size: 1.1rem;
+    margin: 0.0rem 0.3rem;
     flex: 0 0 auto;
 }
 
 .draft-date {
-    color: var(--orange);
+    color: var(--red);
     font-size: 0.9rem;
-    margin: 0.1rem 0.1rem;
-    padding: 0.1rem;
+    margin: 0.0rem 0.1rem;
+    padding: 0.0 0.1rem;
     flex: 0 2 auto;
     align-items: center;
 }
@@ -325,20 +339,21 @@ footer a i {
 .tag-container {
     display: flex;
     flex-wrap: wrap;
-    padding: 0.3rem 0.3rem;
+    padding: 0.0rem 0.3rem;
     align-items: center;
+
 }
 
 .page-tags {
-    background-color: var(--red);
+    background-color: var(--fg3);
     color: white;
     border: 1px solid black;
     border-radius: 4px;
-    padding: 0.1rem 0.2rem;
+    padding: 0.0rem 0.2rem;
     font-size: 0.6rem;
     font-weight: bold;
     margin-right: 0.5rem;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     transition: background-color 0.3s ease;
 }
 

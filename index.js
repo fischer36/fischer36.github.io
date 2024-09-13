@@ -123,7 +123,9 @@ const tagColors = ['red', 'orange', 'yellow', 'blue', 'purple', 'aqua'];
         ${tagsHTML}
         <p2 class="draft-date">${draftInfo.date}</p2>
       </div>
+<hr></hr>
       </div>
+
       <p>${draftInfo.summary}</p>
     `;
     draftsContainer.appendChild(article);

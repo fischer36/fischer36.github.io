@@ -24,13 +24,17 @@
             <div class="title-date-container">
                 <div class="title-and-date">
                     <h1 class="page-title">How do you hook functions in ELF processes (Linux)?</h1>
+
                 </div>
+
                 <div class="tag-container">
                     <span class="page-tags">Elf Injection</span>
                     <span class="page-tags">Elf Function Hooking</span>
                     <span class="page-tags">C</span>
                     <p class="draft-date">Sep 12, 2024</p>
                 </div>
+
+<hr></hr>
             </div>
 <h2>1. LD_PRELOAD</h2>
 <p>One of the most common ways to hook functions in ELF (Executable and Linkable Format) processes on Linux is by using the LD_PRELOAD environment variable. LD_PRELOAD allows you to "inject" a specified <em>shared library</em> into a target process at launch, even before the process's actual libraries are loaded by the dynamic linker. This allows you to override or <strong>hook</strong> functions present in the target process. For example, if we want to hook the printf function, we would recreate printf—with the same function signature—in our shared library. Consequently, all instances of printf within the target process would be linked to <em>our</em> custom version of printf.</p>
