@@ -1,3 +1,4 @@
+// Fetch the list of draft URLs from drafts.json
 async function fetchDraftsList() {
   try {
     const response = await fetch('drafts.json');
@@ -9,6 +10,7 @@ async function fetchDraftsList() {
   }
 }
 
+// Fetch the HTML content of a specific draft
 async function fetchDraftContent(url) {
   try {
     const response = await fetch(url);
@@ -20,6 +22,7 @@ async function fetchDraftContent(url) {
   }
 }
 
+// Extract the title from the HTML content
 function extractTitleFromHTML(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
@@ -27,6 +30,7 @@ function extractTitleFromHTML(html) {
   return titleElement ? titleElement.textContent.trim() : 'Untitled Draft';
 }
 
+// Extract the date from the HTML content
 function extractDateFromHTML(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
@@ -34,6 +38,7 @@ function extractDateFromHTML(html) {
   return dateElement ? dateElement.textContent.trim() : 'No date';
 }
 
+// Extract the summary from the HTML content
 function extractSummaryFromHTML(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
@@ -41,8 +46,7 @@ function extractSummaryFromHTML(html) {
   if (contentElement) {
     const paragraphs = contentElement.querySelectorAll('p');
     for (let p of paragraphs) {
-
-if (p.textContent.trim() && !p.classList.contains('draft-date') && !p.classList.contains('page-tags')) {
+      if (p.textContent.trim() && !p.classList.contains('draft-date') && !p.classList.contains('page-tags')) {
         return p.textContent.trim().slice(0, 250) + '...';
       }
     }
@@ -50,17 +54,38 @@ if (p.textContent.trim() && !p.classList.contains('draft-date') && !p.classList.
   return 'No summary available.';
 }
 
+// Extract tags from the HTML content
+function extractTagsFromHTML(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const tagElements = doc.querySelectorAll('.page-tags'); // Get all elements with class 'page-tags'
+  const tags = [];
+
+  tagElements.forEach(tagElement => {
+    const tagText = tagElement.textContent.trim();
+    if (tagText) {
+      tags.push(tagText);
+      console.log(tagText); // Logs each tag
+    }
+  });
+
+  return tags;
+}
+
+// Get all necessary info for a draft
 async function getDraftInfo(url) {
   const content = await fetchDraftContent(url);
   if (content) {
     const title = extractTitleFromHTML(content);
     const date = extractDateFromHTML(content);
     const summary = extractSummaryFromHTML(content);
-    return { title, summary, date, link: url };
+    const tags = extractTagsFromHTML(content); // Extract tags using the existing function
+    return { title, summary, date, link: url, tags };
   }
   return null;
 }
 
+// Sort drafts by date in descending order
 function sortDraftsByDate(drafts) {
   return drafts.sort((a, b) => {
     const dateA = new Date(a.date);
@@ -69,11 +94,12 @@ function sortDraftsByDate(drafts) {
   });
 }
 
+// Render all drafts into the page
 async function renderDrafts() {
   const draftsContainer = document.getElementById('drafts-container');
   draftsContainer.innerHTML = ''; 
   const draftUrls = await fetchDraftsList();
-  
+
   // Fetch all draft info
   const draftsInfo = await Promise.all(draftUrls.map(getDraftInfo));
   
@@ -83,20 +109,31 @@ async function renderDrafts() {
   for (const draftInfo of sortedDrafts) {
     const article = document.createElement('article');
     article.className = 'draft-entry';
+
+    // Create tags HTML
+    const tagsHTML = draftInfo.tags.map(tag => `<span class="page-tags">${tag}</span>`).join(' ');
+
     article.innerHTML = `
       <div class="title-date-container">
         <h2 class="page-title"><a href="${draftInfo.link}">${draftInfo.title}</a></h2>
-        <p class="draft-date">${draftInfo.date}</p>
+      <div class="tag-container">
+        ${tagsHTML}
+        <p2 class="draft-date">${draftInfo.date}</p2>
+      </div>
       </div>
       <p>${draftInfo.summary}</p>
     `;
     draftsContainer.appendChild(article);
   }
 
-const linkElement = document.querySelector('.page-title a');
-console.log(linkElement); // Logs the <a> element
-console.log(linkElement.href); // Logs the href value
-console.log(linkElement.textContent); // Logs the text content of the link
+  // Optional: Log the first link element for debugging
+  const linkElement = document.querySelector('.page-title a');
+  if (linkElement) {
+    console.log(linkElement); // Logs the <a> element
+    console.log(linkElement.href); // Logs the href value
+    console.log(linkElement.textContent); // Logs the text content of the link
+  }
 }
 
+// Initialize rendering on DOM content loaded
 document.addEventListener('DOMContentLoaded', renderDrafts);

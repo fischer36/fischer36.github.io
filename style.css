@@ -136,8 +136,8 @@ nav a:hover {
     border: 1px solid var(--bg2);
     border-radius: 8px;
     padding: 10px 10px;
+    font-size: 1.4rem;
     margin: 30px 30px;
-    /* Removed text-decoration: none; */
 }
 
 .draft-entry h2 {
@@ -170,6 +170,11 @@ nav a:hover {
     margin: 0.1rem 0.1rem;
 }
 
+.draft-entry p2 {
+
+    font-size: 0.9rem;
+    padding: 0.3rem 0.3rem;
+}
 /* Page Title */
 .page-title h2 {
     color: var(--red);
@@ -280,13 +285,13 @@ footer a i {
 
 /* Title and Date Container */
 .title-date-container {
-    display: flex;
+    display: contents;
     flex-direction: column; /* Corrected invalid display value */
     width: 100%;
     margin: 0.1rem 0.1rem;
     border-bottom: 1px solid var(--bg2);
     color: var(--red);
-    padding: 0.7rem 0rem;
+    padding: 0.3rem 0.3rem;
     align-items: center;
 }
 
@@ -302,25 +307,26 @@ footer a i {
 .page-title {
     color: var(--fg0) !important;
     background-color: transparent;
-    font-size: 1.2rem;
-    margin: 0.1rem 0.1rem;
+    font-size: 1.4rem;
+    margin: 0.3rem 0.3rem;
     flex: 0 0 auto;
 }
 
 .draft-date {
-    color: var(--red);
-    font-size: 1rem;
+    color: var(--orange);
+    font-size: 0.9rem;
     margin: 0.1rem 0.1rem;
-    padding: 0;
+    padding: 0.1rem;
     flex: 0 2 auto;
-    font-weight: bold;
+    align-items: center;
 }
 
 /* Tags */
 .tag-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.2em;
+    padding: 0.3rem 0.3rem;
+    align-items: center;
 }
 
 .page-tags {
@@ -328,8 +334,8 @@ footer a i {
     color: white;
     border: 1px solid black;
     border-radius: 4px;
-    padding: 0.2rem;
-    font-size: 0.7rem;
+    padding: 0.2rem 0.2rem;
+    font-size: 0.6rem;
     font-weight: bold;
     margin-right: 5px;
     margin-bottom: 5px;
