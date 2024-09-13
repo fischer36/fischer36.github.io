@@ -43,7 +43,7 @@ function extractSummaryFromHTML(html) {
     for (let p of paragraphs) {
 
 if (p.textContent.trim() && !p.classList.contains('draft-date') && !p.classList.contains('page-tags')) {
-        return p.textContent.trim().slice(0, 150) + '...';
+        return p.textContent.trim().slice(0, 250) + '...';
       }
     }
   }
@@ -92,6 +92,11 @@ async function renderDrafts() {
     `;
     draftsContainer.appendChild(article);
   }
+
+const linkElement = document.querySelector('.page-title a');
+console.log(linkElement); // Logs the <a> element
+console.log(linkElement.href); // Logs the href value
+console.log(linkElement.textContent); // Logs the text content of the link
 }
 
 document.addEventListener('DOMContentLoaded', renderDrafts);
