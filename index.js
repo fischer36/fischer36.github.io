@@ -1,3 +1,5 @@
+// Import Rust WebAssembly module and functions at the top level
+
 // Fetch the list of draft URLs from drafts.json
 async function fetchDraftsList() {
   try {
@@ -47,7 +49,7 @@ function extractSummaryFromHTML(html) {
     const paragraphs = contentElement.querySelectorAll('p');
     for (let p of paragraphs) {
       if (p.textContent.trim() && !p.classList.contains('draft-date') && !p.classList.contains('page-tags')) {
-        return p.textContent.trim().slice(0, 250) + '...';
+        return p.textContent.trim().slice(0, 150) + '...';
       }
     }
   }
@@ -58,14 +60,13 @@ function extractSummaryFromHTML(html) {
 function extractTagsFromHTML(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
-  const tagElements = doc.querySelectorAll('.page-tags'); // Get all elements with class 'page-tags'
+  const tagElements = doc.querySelectorAll('.page-tags');
   const tags = [];
 
   tagElements.forEach(tagElement => {
     const tagText = tagElement.textContent.trim();
     if (tagText) {
       tags.push(tagText);
-      console.log(tagText); // Logs each tag
     }
   });
 
@@ -79,7 +80,7 @@ async function getDraftInfo(url) {
     const title = extractTitleFromHTML(content);
     const date = extractDateFromHTML(content);
     const summary = extractSummaryFromHTML(content);
-    const tags = extractTagsFromHTML(content); // Extract tags using the existing function
+    const tags = extractTagsFromHTML(content);
     return { title, summary, date, link: url, tags };
   }
   return null;
@@ -96,8 +97,8 @@ function sortDraftsByDate(drafts) {
 
 // Render all drafts into the page
 async function renderDrafts() {
-  const draftsContainer = document.getElementById('drafts-container');
-  draftsContainer.innerHTML = ''; 
+  const draftsContainer = document.getElementById('drafts-container-id');
+  draftsContainer.innerHTML = '<h1>Posts</h1>'; 
   const draftUrls = await fetchDraftsList();
 
   // Fetch all draft info
@@ -106,31 +107,31 @@ async function renderDrafts() {
   // Filter out null values and sort
   const sortedDrafts = sortDraftsByDate(draftsInfo.filter(Boolean));
 
+  const tagColors = ['red', 'orange', 'yellow', 'blue', 'purple', 'aqua'];
+
   for (const draftInfo of sortedDrafts) {
-    const article = document.createElement('article');
-    article.className = 'draft-entry';
-const tagColors = ['red', 'orange', 'yellow', 'blue', 'purple', 'aqua'];
-    // Create tags HTMLconst tagColors = ['green', 'yellow', 'blue', 'purple', 'aqua', 'orange'];
-   const tagsHTML = draftInfo.tags.map((tag, index) => {
+    const article = document.createElement('div');
+    article.className = 'drafts-entry-new';
+
+    // Create tags HTML
+    const tagsHTML = draftInfo.tags.map((tag, index) => {
       const colorName = tagColors[index % tagColors.length];
       return `<span class="page-tags" style="background-color: var(--${colorName});">${tag}</span>`;
     }).join(' ');
 
     article.innerHTML = `
-      <div class="title-date-container">
-        <h2 class="page-title"><a href="${draftInfo.link}">${draftInfo.title}</a></h2>
-      <div class="tag-container">
-        ${tagsHTML}
-        <p2 class="draft-date">${draftInfo.date}</p2>
+    <div class="title-container"> 
+        <h2><a href="${draftInfo.link}">${draftInfo.title}</a></h2>
+        <h2><a class="date">${draftInfo.date}</a></h2>
       </div>
-<hr></hr>
-      </div>
-
-      <p>${draftInfo.summary}</p>
+            <div class="tags-container">
+          ${tagsHTML}
+        </div>
+        <hr></hr>
+      <sum>${draftInfo.summary}</sum>
     `;
     draftsContainer.appendChild(article);
   }
-
   // Optional: Log the first link element for debugging
   const linkElement = document.querySelector('.page-title a');
   if (linkElement) {
@@ -140,11 +141,21 @@ const tagColors = ['red', 'orange', 'yellow', 'blue', 'purple', 'aqua'];
   }
 }
 
-// Initialize rendering on DOM content loaded
-document.addEventListener('DOMContentLoaded', renderDrafts);
-const hamburger = document.querySelector('.navbar');
-const navMenu = document.querySelector('.nav-links');
+// Initialize rendering and Rust WebAssembly after DOM content is loaded
+document.addEventListener('DOMContentLoaded', async () => {
+  await renderDrafts();
 
-hamburger.addEventListener('click', () => {
-    console.log("hello"); // Logs the text content of the link
+  // Initialize Rust WebAssembly
+  await init(); // Initialize the WASM module
+  document.getElementById("greet-button").onclick = () => {
+    alert(greet("World"));
+  };
+
+  // Add event listener for hamburger menu
+  const hamburger = document.querySelector('.navbar');
+  const navMenu = document.querySelector('.nav-links');
+
+  hamburger.addEventListener('click', () => {
+    console.log("Hamburger menu clicked");
+  });
 });

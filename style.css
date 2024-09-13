@@ -34,14 +34,15 @@ a {
 body {
     line-height: 1.6;
     color: var(--fg1);
-    margin: 0;
-    padding: 0;
+    margin: 5rem 0rem;
+    padding: 5rem 0rem;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     background-color: var(--bg0);
     padding-top: 25px;
-    /*font-family: "BigBlueTermPlus NerdFont", regular;*/
+    align-items: center;
+    font-family: "BigBlueTermPlus NerdFont", regular;
 }
 
 /* Navbar */
@@ -54,7 +55,8 @@ header {
 }
 
 main {
-    max-width: 1200px;
+min-width: 1200px;
+min-height: 600px;
     margin: 3rem auto;
     padding: 0 30px;
     flex: 1;
@@ -142,9 +144,7 @@ nav a:hover {
     background-color: transparent;
     border: 1px solid var(--bg2);
     border-radius: 8px;
-    padding: 10px 10px;
     font-size: 1.4rem;
-    margin: 30px 30px;
 
 }
 
@@ -245,7 +245,135 @@ nav a:hover {
 .draft-content p {
     line-height: 1.8;
 }
+.drafts-container-entry {
+display: block_ruby;
+  width: 70%;
+overflow-y: auto;
+  height: 100%;
+  margin: 1.5rem 1.5rem;
+  text-decoration: none;
+border-radius: 8px; 
+border: 1px solid var(--bg2);
+    border-color: var(--fg1);
+    font-size: 1.4rem;
+    min-height: 800px;
+    max-height: 800px;
+    width: 900px;
+}
+ .drafts-container-entry a{
+  text-decoration: none; /* Remove underline from links */
+}
 
+.drafts-container-entry a:hover {
+}
+
+.drafts-container-entry a.active {
+}
+.drafts-container-entry h1, h2,a{
+  display: flex;
+  font-size: 1.0rem;
+  margin: 0.2rem 0.4rem;
+  justify-content: center;
+  align-items: flex-start;
+  color: var(--yellow);
+  padding: 0.1rem 0.0rem;
+}
+.drafts-entry-new h1,a, h2{
+background-color  : transparent;
+  font-size: 0.7rem;
+  display: flex;
+
+  color: var(--yellow);
+  margin: 0.1rem 0.4rem;
+
+  align-items: flex-start;
+  padding: 0.0rem 0.0rem;
+}
+
+.drafts-entry-new tagxd{
+  font-size: 0.7rem;
+    width: 100%;
+  text-align: center;
+    margin: 0.4rem 0.4rem;
+    padding: 0.0rem 3.0rem;
+}
+
+.drafts-entry-new hr{
+  background-color: transparent;
+  margin: 0.4rem 0.4rem;
+  padding: 0.0rem 0.5rem;
+    color: var(--fg2);
+}
+.drafts-entry-new tagxd span{
+    background-color: var(--fg3);
+    width: 100%;
+    color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 0.0rem 0.4rem;
+    font-size: 0.6rem;
+  margin-left:0.1rem;
+    transition: background-color 0.3s ease;
+}
+.title-container h2, a{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.3rem 0.1rem;
+  padding: 0.0rem 0.0rem;
+  margin-left:0.1rem;
+  font-size: 0.7rem;
+  font-weight: normal;
+  color: var(--fg0);
+}
+.title-container {
+    display: flex;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+    margin: 0.2rem 0.1rem;
+}
+.drafts-entry-new sum{
+    color: var(--fg0);
+    font-size: 0.6rem;
+    text-align: center;
+    display: block;
+  margin: 0.6rem 0.6rem;
+  margin-bottom: 0.4rem;
+  padding: 0.2rem 0.2rem;
+}
+.drafts-entry-new {
+  display: block;
+  margin: 1.0rem 1.0rem;
+  padding: 0.0rem 0.0rem;
+    font-size: 1.1rem;
+    border: 1px solid var(--fg0);
+    border-radius: 2px;
+    border-color: var(--bg1);
+}
+.main-container h1 {
+  font-size: 1.1rem;
+    color: var(--fg2);
+  margin: 0.2rem 0.2rem;
+  padding: 0.0rem 0.0rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.main-container {
+  display: flex;
+  margin: 0.1rem 1.0rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.0rem 0.0rem;
+    font-size: 1.2rem;
+    border: 1px solid var(--fg0);
+    border-radius: 2px;
+    border-color: var(--bg1);
+min-width: 1300px;
+min-height: 600px;
+}
+/*
 /* Code Blocks */
 pre, .draft-content pre {
     background-color: var(--bg2);
@@ -335,8 +463,13 @@ footer a i {
     margin: 0.0rem 0.3rem;
     flex: 0 0 auto;
 }
-
-.draft-date {
+.date {
+  display:flex;
+    color: var(--red);
+    font-size: 0.7rem;
+    align-items: flex-end;
+}
+draft-date {
     color: var(--red);
     font-size: 0.9rem;
     margin: 0.0rem 0.1rem;
@@ -346,24 +479,26 @@ footer a i {
 }
 
 /* Tags */
-.tag-container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0.0rem 0.3rem;
-    align-items: center;
-
+.tags-container {
+  display: flex;
+    width: 100%;
+  flex-direction: row;
+  align-items: start-end;
+  padding: 0.0rem 0.6rem;
+  margin: 0.0rem 0.0rem;
+    font-size: 0.9rem;
 }
 
 .page-tags {
+    padding: 0.0rem 0.0rem;
+    margin: 0.0rem 0.2rem;
     background-color: var(--fg3);
     color: white;
     border: 1px solid black;
     border-radius: 4px;
-    padding: 0.0rem 0.2rem;
-    font-size: 0.6rem;
-    /*font-weight: bold;*/
-    margin-right: 0.5rem;
-    margin-bottom: 0px;
+    padding: 0.2rem 0.2rem;
+    font-size: 0.5rem;
+    font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
