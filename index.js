@@ -109,9 +109,12 @@ async function renderDrafts() {
   for (const draftInfo of sortedDrafts) {
     const article = document.createElement('article');
     article.className = 'draft-entry';
-
-    // Create tags HTML
-    const tagsHTML = draftInfo.tags.map(tag => `<span class="page-tags">${tag}</span>`).join(' ');
+const tagColors = ['red', 'orange', 'yellow', 'blue', 'purple', 'aqua'];
+    // Create tags HTMLconst tagColors = ['green', 'yellow', 'blue', 'purple', 'aqua', 'orange'];
+   const tagsHTML = draftInfo.tags.map((tag, index) => {
+      const colorName = tagColors[index % tagColors.length];
+      return `<span class="page-tags" style="background-color: var(--${colorName});">${tag}</span>`;
+    }).join(' ');
 
     article.innerHTML = `
       <div class="title-date-container">
@@ -137,3 +140,9 @@ async function renderDrafts() {
 
 // Initialize rendering on DOM content loaded
 document.addEventListener('DOMContentLoaded', renderDrafts);
+const hamburger = document.querySelector('.navbar');
+const navMenu = document.querySelector('.nav-links');
+
+hamburger.addEventListener('click', () => {
+    console.log("hello"); // Logs the text content of the link
+});
