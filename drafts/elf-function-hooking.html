@@ -23,13 +23,13 @@
 
             <div class="title-date-container">
                 <div class="title-and-date">
-                    <h1 class="page-title">How do you hook functions in ELF processes (Linux)?</h1>
+                    <h1 class="page-title">Elf Process Injection and Function Hooking</h1>
 
                 </div>
 
                 <div class="tag-container">
-                    <span class="page-tags">Elf Injection</span>
-                    <span class="page-tags">Elf Function Hooking</span>
+                    <span class="page-tags">Process Injection</span>
+                    <span class="page-tags">Function Hooking</span>
                     <span class="page-tags">C</span>
                     <p class="draft-date">Sep 12, 2024</p>
                 </div>
@@ -43,27 +43,27 @@
 <p>To demonstrate, let's create two programs:</p>
 
 <ul>
-    <li><strong>Target Program (target.c):</strong> A simple C program that calls <code>printf</code>:</li>
+    <li><strong>Target Program (target.c):</strong> A simple C program that calls printf:</li>
 </ul><pre><code>#include &lt;stdio.h&gt;
 int main() { printf("Hello, World! %d\n", 1); }</code></pre>
-<p><strong>Compile <code>target.c</code>:</strong></p>
+<p><strong>Compile target.c:</strong></p>
 <pre><code class="language-bash">gcc target.c -o target</code></pre>
 
 <ul>
-    <li><strong>Hook Program (hook.c):</strong> Another C program compiled as a shared library to override <code>printf</code>:</li></ul><pre><code>#include&lt;stdio.h&gt;
+    <li><strong>Hook Program (hook.c):</strong> Another C program compiled as a shared library to override printf:</li></ul><pre><code>#include&lt;stdio.h&gt;
 int printf(const char *format, ...) { puts("Successfully hooked printf()"); return 0; }</code></pre>
-<p><strong>Compile <code>hook.c</code> into a shared library:</strong></p>
+<p><strong>Compile hook.c into a shared library:</strong></p>
 <pre><code class="language-bash">gcc hook.c -o hook.so -fPIC -shared -ldl</code></pre>
 
-<p>Now, we have <code>target</code>—our target program—and <code>hook.so</code>—our shared library containing the custom <code>printf</code> override. Let's first run the target program by itself:</p>
+<p>Now, we have our target program—and hook.so—our shared library containing the custom printf override. Let's first run the target program by itself:</p>
 <pre><code class="language-bash">./target</code></pre>
 <p><strong>Output:</strong> Hello, World!</p>
 
-<p>Now let's use <code>LD_PRELOAD</code> to inject <code>hook.so</code> into <code>target</code>:</p>
-<pre><code class="language-bash">LD_PRELOAD=hook.so ./target</code></pre>
+<p>Now let's use LD_PRELOAD to inject hook.so into target:</p>
+<pre><code>LD_PRELOAD="./hook.so" ./target</code></pre>
 <p><strong>Output:</strong> Successfully hooked printf()</p>
 
-<p>This shows that each instance of <code>printf</code> in <code>target.c</code> is linked to our custom <code>printf</code> function defined in <code>hook.c</code>.</p>
+<p>This shows that each instance of printf in target.c is linked to our custom printf function defined in hook.c.</p>
 
 <h2>3. Remarks on printf</h2>
 <p>In our example, <i>printf("Hello, World! %d\n", 1)</i> formats an integer value along with the string. Indeed this is intentional, when experimenting with the project beforehand I discovered that the hook does not get called when printf is used with a single parameter: printf("Hello, World!\n"). This means that printf is not called; so I ran the two programs and their corresponding function variations in GDB. As expected, the the program with the two parameters, calls printf like usual. <b>However</b>, the program of which printf gets called with only one parameter—the string, instead calls <b>puts</b>—an alternative standard C library function for printing—in place of printf in the previous program. This suggests that the call to printf is <i>modified by the compiler or linker.</i></p>
@@ -72,17 +72,17 @@ int printf(const char *format, ...) { puts("Successfully hooked printf()"); retu
 <pre><code>#include &lt;stdio.h&gt;
 int puts(const char *s){ printf("Hooked - Original printf: %s\n", s); return 0; }</code></pre>
 
-<p>And adjust <code>target.c</code> to use <code>printf</code> with a single parameter:</p>
+<p>And adjust target.c to use printf with a single parameter:</p>
 <pre><code >#include &lt;stdio.h&gt;
 int main() { printf("Hello, World!\n"); }
 </code></pre>
 
-<p>Compile and run with <code>LD_PRELOAD</code> as before:</p>
+<p>Compile and run with LD_PRELOAD as before:</p>
 <pre><code>LD_PRELOAD="./hook.so" ./target</code></pre>
 <p><strong>Output:</strong> Hooked - Original printf: Hello, World!</p>
-<p>This demonstrates that by overriding <code>puts</code>, we indirectly hooked instances of <code>printf</code> that are optimized to <code>puts</code> by the compiler.</p>
+<p>This demonstrates that by overriding puts, we indirectly hooked instances of printf that are optimized to puts by the compiler.</p>
 
-<h2>Conclusion:</h2>
+<h2>4. Conclusion:</h2>
 <p>This article covered how to use LD_PRELOAD to inject a shared library into a target process on Linux. We demonstrated how to hook the printf function and discovered that printf calls with a single parameter dynamically gets replaced with puts, probably due to compiler optimizations.</p>
         </article>
     </main>

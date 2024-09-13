@@ -41,7 +41,7 @@ body {
     min-height: 100vh;
     background-color: var(--bg0);
     padding-top: 25px;
-    font-family: "BigBlueTermPlus NerdFont", regular;
+    /*font-family: "BigBlueTermPlus NerdFont", regular;*/
 }
 
 /* Navbar */
@@ -117,7 +117,7 @@ nav a:link:active, a:visited:active {
   text-decoration: none;
 }
 nav a:hover {
-    color: var(--blue);
+    color: var(--yellow);
   text-decoration: none;
 }
 
@@ -215,6 +215,7 @@ nav a:hover {
 .draft-content article {
     margin: 2rem 0rem;
     padding: 1.5rem;
+    font-weight: normal;
     color: var(--fg0);
 }
 
@@ -247,19 +248,28 @@ nav a:hover {
 
 /* Code Blocks */
 pre, .draft-content pre {
-    background-color: var(--bg1);
-    border: 1px solid var(--bg2);
-    border-radius: 5px;
+    background-color: var(--bg2);
+    border: 1px solid var(--fg0);
+    border-radius: 2px;
     align-items: center;
     padding: 0.3rem 0.3rem;
     overflow-x: auto;
 }
-
+strong {
+  color: var(--fg1);
+}
+.draft-content i {
+  color: var(--aqua);
+}
+.draft-content li {
+  color: var(--red);
+}
 code {
     background-color: transparent;
-    font-size: 1em;
+    font-size: 0.7rem;
+    font-family: 'BigBlueTermPlus NerdFont', regular;
     color: var(--fg0);
-    padding: 0.1rem 0.1rem;
+    padding: 0.6rem 0.6rem;
     align-items: center;
 }
 
@@ -351,7 +361,7 @@ footer a i {
     border-radius: 4px;
     padding: 0.0rem 0.2rem;
     font-size: 0.6rem;
-    font-weight: bold;
+    /*font-weight: bold;*/
     margin-right: 0.5rem;
     margin-bottom: 0px;
     transition: background-color 0.3s ease;
