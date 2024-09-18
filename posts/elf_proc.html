@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalistic Navbar</title>
+    <script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+
+<body>
+    <header>
+        <h1>Fischer's Lab</h1>
+        <nav>
+
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../posts.html">Posts</a></li>
+                <li><a href="../about.html">About</a></li>
+                <li><a href="../https://github.com/fischer36" aria-label="Github"><i class="fab fa-github"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class="post">
+        <article>
+            <h1>Elf Process Injection and Function Hooking</h1>
+            <p class="date">Sep 12, 2024</p>
+            <ul class="tags">
+                <li>Process Injection</li>
+                <li>Function Hooking</li>
+                <li>C</li>
+            </ul>
+
+            <h2>1. LD_PRELOAD</h2>
+            <p>One of the most common ways to hook functions in ELF (Executable and Linkable Format) processes on Linux
+                is by using the LD_PRELOAD environment variable. LD_PRELOAD allows you to "inject" a specified
+                <em>shared library</em> into a target process at launch, even before the process's actual libraries are
+                loaded by the dynamic linker. This allows you to override or <strong>hook</strong> functions present in
+                the target process. For example, if we want to hook the printf function, we would recreate printf—with
+                the same function signature—in our shared library. Consequently, all instances of printf within the
+                target process would be linked to <em>our</em> custom version of printf.
+            </p>
+
+            <h2>2. Example</h2>
+            <p>To demonstrate, let's create two programs:</p>
+
+            <ul>
+                <p><strong>Target Program (target.c):</strong> A simple C program that calls printf:</p>
+            </ul>
+            <pre><code>#include &lt;stdio.h&gt;
+            int main() { printf("Hello, World! %d\n", 1); }</code></pre>
+            <p><strong>Compile target.c:</strong></p>
+            <pre><code class="language-bash">gcc target.c -o target</code></pre>
+
+            <ul>
+                <p><strong>Hook Program (hook.c):</strong> Another C program compiled as a shared library to override
+                    printf:</p>
+            </ul>
+            <pre><code>#include&lt;stdio.h&gt;
+            int printf(const char *format, ...) { puts("Successfully hooked printf()"); return 0; }</code></pre>
+            <p><strong>Compile hook.c into a shared library:</strong></p>
+            <pre><code class="language-bash">gcc hook.c -o hook.so -fPIC -shared -ldl</code></pre>
+
+            <p>Now, we have our target program—and hook.so—our shared library containing the custom printf override.
+                Let's first run the target program by itself:</p>
+            <pre><code class="language-bash">./target</code></pre>
+            <p><strong>Output:</strong> Hello, World!</p>
+
+            <p>Now let's use LD_PRELOAD to inject hook.so into target:</p>
+            <pre><code>LD_PRELOAD="./hook.so" ./target</code></pre>
+            <p><strong>Output:</strong> Successfully hooked printf()</p>
+
+            <p>This shows that each instance of printf in target.c is linked to our custom printf function defined in
+                hook.c.</p>
+
+            <h2>3. Remarks on printf</h2>
+            <p>In our example, <i>printf("Hello, World! %d\n", 1)</i> formats an integer value along with the string.
+                Indeed this is intentional, when experimenting with the project beforehand I discovered that the hook
+                does not get called when printf is used with a single parameter: printf("Hello, World!\n"). This means
+                that printf is not called; so I ran the two programs and their corresponding function variations in GDB.
+                As expected, the the program with the two parameters, calls printf like usual. <b>However</b>, the
+                program of which printf gets called with only one parameter—the string, instead calls <b>puts</b>—an
+                alternative standard C library function for printing—in place of printf in the previous program. This
+                suggests that the call to printf is <i>modified by the compiler or linker.</i></p>
+
+            <p>On the contrary, when I statically disassembled each program using objdump, there was no difference in
+                the code, indicating that printf gets optimized to puts dynamically at runtime. Knowing this, we can
+                modify our hook.c program to override puts instead.</p>
+            <pre><code>#include &lt;stdio.h&gt;
+            int puts(const char *s){ printf("Hooked - Original printf: %s\n", s); return 0; }</code></pre>
+
+            <p>And adjust target.c to use printf with a single parameter:</p>
+            <pre><code >#include &lt;stdio.h&gt;
+            int main() { printf("Hello, World!\n"); }
+            </code></pre>
+
+            <p>Compile and run with LD_PRELOAD as before:</p>
+            <pre><code>LD_PRELOAD="./hook.so" ./target</code></pre>
+            <p><strong>Output:</strong> Hooked - Original printf: Hello, World!</p>
+            <p>This demonstrates that by overriding puts, we indirectly hooked instances of printf that are optimized to
+                puts by the compiler.</p>
+
+            <h2>4. Conclusion:</h2>
+            <p>This article covered how to use LD_PRELOAD to inject a shared library into a target process on Linux. We
+                demonstrated how to hook the printf function and discovered that printf calls with a single parameter
+                dynamically gets replaced with puts, probably due to comp
+        </article>
+    </main>
+</body>
+
+</html>
