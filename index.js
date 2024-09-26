@@ -1,7 +1,7 @@
 
 async function getPostCount() {
     try {
-        const response = await fetch('./posts.json');
+        const response = await fetch('./posts/posts.json');
         const data = await response.json();
         return data.posts.length;
     } catch (error) {

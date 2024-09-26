@@ -5,6 +5,9 @@ ul {
     box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 
 body {
 
@@ -40,6 +43,14 @@ header h1 {
     font-size: 24px;
 
 
+}
+
+a {
+
+    text-decoration: none;
+border-bottom: 3px solid white;
+  color: inherit;
+  text-decoration: none;
 }
 
 nav {
@@ -127,8 +138,8 @@ h2 {
 .post h1 {
     font-size: 1.5em;
     margin-top: 0.5em;
-    margin-bottom: 0.3em;
     color: white;
+    padding: 0.0rem 0.0rem;
     font-weight: bold;
 }
 
@@ -140,17 +151,17 @@ h2 {
     margin-bottom: 0.2em;
 }
 
-.post h2,
-h3 {
+.post h2 {
     font-size: 1.3em;
 
     color: white;
     font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 0rem;
 }
 
 .post p {
     font-size: 1.0rem;
-    margin-top: 1.0em;
     margin-bottom: 1.0em;
     color: white;
 }
@@ -163,8 +174,11 @@ h3 {
 }
 
 .post a {
-    color: #007BFF;
+    color: white;
     text-decoration: none;
+}
+.post a:hover {
+  background-color: black;
 }
 
 .post a:hover {
@@ -281,13 +295,13 @@ h3 {
     width: 400px;
     /* Fixed width, adjust as needed */
     height: auto;
-
+padding-bottom: 0.7rem;
     /* Allow height to adjust based on content */
     display: flex;
     /* Use flexbox for layout */
     flex-direction: column;
     /* Align children vertically */
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     /* Distribute space between elements */
     text-decoration: none;
     /* Glass effect */
@@ -300,7 +314,7 @@ h3 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
 
     /* Optional: Light inner shadow */
-    overflow: hidden;
+    /*overflow: hidden;*/
     /* Ensure content stays within the rounded corners */
     transition: 1s;
     transition: background-color 0.3s ease;
@@ -315,20 +329,37 @@ h3 {
 
 
 
-.post-grid-entry h1 a {
-    color: #fff;
-    font-size: 1.0rem;
-    padding: 0rem;
-    margin: 0rem;
+.post-grid-entry h1 a,h1 {
+    font-size: 1.3rem;
+    margin-top: 0.5rem;
+    font-weight: normal;
     text-decoration: none;
+    padding: 0.0rem 0.0rem:
+    
 }
 
+.post-grid-entry h1 a:hover {
+    text-decoration: none;
+    background-color: black;
+}
+.date_and_tags {
+height:30px;
+
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.0rem 0.5rem;
+    padding: 0rem 0rem;
+}
 
 .post-grid-entry p {
     color: #fff;
-    margin: 0.5rem 0.5rem;
     font-size: 0.9rem;
-    text-align: center;
+    text-align: left;
+    margin: 0.2rem 0.5rem;
+    padding: 0.0rem 0.0rem;
 }
 
 .post-grid-entry .tags {
@@ -360,4 +391,13 @@ h3 {
 
     border-radius: 1px;
 
+}
+
+
+.toc {
+}
+
+.toc h2{
+  padding: 0px 0px;
+  margin: 0px 0px;
 }

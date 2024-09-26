@@ -59,7 +59,7 @@ async function renderPosts() {
 
                 postLink.target = '_blank';
 
-                const dateParagraph = document.createElement('p');
+                const dateParagraph = document.createElement('time');
                 dateParagraph.textContent = dateText;
 
                 const summary = document.createElement('p');
@@ -78,8 +78,12 @@ async function renderPosts() {
                 postTitle.appendChild(postLink);
 
                 postGridEntry.appendChild(postTitle);
-                postGridEntry.appendChild(dateParagraph);
-                postGridEntry.appendChild(tagsList);  // Append the tags list
+              const date_and_tags = document.createElement('div');
+              date_and_tags.className = 'date_and_tags';
+                date_and_tags.appendChild(dateParagraph);
+                date_and_tags.appendChild(tagsList);
+                //postGridEntry.appendChild(dateParagraph);
+                postGridEntry.appendChild(date_and_tags);  // Append the tags list
 
                 postGridEntry.appendChild(summary);
 
