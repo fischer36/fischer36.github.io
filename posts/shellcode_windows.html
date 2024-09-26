@@ -46,15 +46,15 @@
             <h1>Shellcode Injection and Execution</h1>
             <p class="date">Sep 24, 2024</p>
             <ul class="tags">
-                <li>Shellcode</li//>
+                <li>Shellcode</li>
                 <li>Linux</li>
                 <li>C</li>
             </ul>
-            <p>The following article explores the concept of shellcode. We will <a href="#creating">create</a>, <a href="#inject">inject & execute</a>, our shellcode payload into a process.</p>
+            <p>The following article explores the concept of shellcode. We will <a href="#creating">create</a>, <a href="#inject">inject, and execute</a>, our shellcode payload into a process.</p>
 
-        <h2 id="creating">Creating shellcode</h1>
-<p>To create our payload, we will first create an assembly program—consisting of our desired payload behaviour, that we will dissassemble into shellcode.</p>
-        <p><b>asm.s</b> - Our basic assembly program contains an entry point that calls "proc" and then exits through sys calls, and a procedure that prints "hi" to stdout and then exits—before returning to the entry point caller.
+        <h2 id="creating">Creating shellcode</h2>
+<p>To create our payload, we will first create an assembly program—consisting of our desired payload behaviour, that we will disassemble into shellcode.</p>
+        <p><b>asm.s</b> - Our basic assembly program contains an entry point that calls "proc" and then exits through syscalls, and a procedure that prints "hi" to stdout and then exits—before returning to the entry point caller.
        <pre><code>.global _start
 .intel_syntax noprefix
 
@@ -105,7 +105,7 @@ Output: hi</code></pre>
   401044:	58                   	pop    %rax
   401045:	c3                   	ret ;------------------- end
 
-; Copying the hex values from start to end of our prodecure results in the shellcode:
+; Copying the hex values from start to end of our procedure results in the shellcode:
 ; \x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7
 ; \x01\x00\x00\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48
 ; \xc7\xc0\x3c\x00\x00\x00\x48\xc7\xc7\x45\x00\x00\x00\x0f\x05\x58\xc3</code></pre>
@@ -122,11 +122,11 @@ int main(int argc, char *argv[]) {
   return 1;
 }</code></pre>
 <p>Compile and run demo.c:</p>
-<pre><code>$ gcc main.c -o main
-$ ./main 
+<pre><code>$ gcc demo.c -o demo 
+$ ./demo
 Output: hi // Successful payload execution
 </code></pre>
-        <h2 id="inject">Injection and Execution</h1>
+        <h2 id="inject">Injection and Execution</h2>
         <p>injector.c - This program will inject and execute our payload in a target process using ptrace.</p>
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -134,7 +134,7 @@ Output: hi // Successful payload execution
 #include &lt;sys/ptrace.h&gt;
 #include &lt;sys/types.h&gt;
 #include &lt;sys/user.h&gt;
-#include &lt;sys/wait.h&gt
+#include &lt;sys/wait.h&gt;
 #include &lt;unistd.h&gt;
 
 char payload[] = // Shellcode
@@ -189,10 +189,9 @@ int main(int argc, char *argv[]) {
           printf("Start address: %lx\n", start_addr);
           printf("End address: %lx\n", end_addr);
 
-          // Write our payload at the begining of the mapping
+          // Write our payload at the beginning of the mapping
           for (int i = 0; i < sizeof(payload); i += sizeof(unsigned char)) {
-            unsigned char data = 0;
-            memcpy(&data, &payload[i], sizeof(unsigned char));
+          unsigned char data = payload[i];
             if (ptrace(PTRACE_POKEDATA, pid, start_addr + i, data) == -1) {
               puts("Error: ptrace pokedata");
               return -1;
@@ -209,7 +208,7 @@ int main(int argc, char *argv[]) {
           // Get the current instruction pointer to start_address
           regs.rip = start_addr;
 
-          // Set our modified registesr
+          // Set our modified registers
           if (ptrace(PTRACE_SETREGS, pid, NULL, &regs) == -1) {
             puts("Error: ptrace setregs");
             return -1;
@@ -227,7 +226,7 @@ int main(int argc, char *argv[]) {
 
           // Close maps file handle after copying its data
           fclose(maps_file);
-          return -1;
+          return 0;
         }
       }
     }
