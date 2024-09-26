@@ -8,6 +8,22 @@
     <script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../style.css">
 
+<!-- Include Highlight.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+
+  <!-- Include Highlight.js JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/x86asm.min.js" integrity="sha512-tp43S2YfafEU7aebJfvq/qi4pBjRIFvZ8jXTD1TXk1uMHUSEMO+qXzAvjyh/Shy4prCZDaRL1pgINu0YyK/xlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/1c.min.js" integrity="sha512-ELcLUEQzYlYEVNeBa8iR3xp92lYTYOo2iYWMAqQ5Wt3na7rb06PMCfO8CHlyCMmJaZW7tzj6OjUwg5RJLbeyXQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js" integrity="sha512-4ea7XTSjSgnYA2UCmeriRmmIfJ5iXR562Y8faBB+y3BKcwftFMofy6ff0wX4A4UmR155PlFghb5np+WrAVIoaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/rust.min.js" integrity="sha512-TS2u6t34Pqmip8LfVZUyujKXRANq/hMgbf47v8YKYCt+v4wXHWBdZEcomRrFGNHinuMQBR0YbgCiteFZF2M8ew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    hljs.highlightAll();
+  });
+</script>
 </head>
 
 <body>
@@ -50,27 +66,27 @@
             <ul>
                 <p><strong>Target Program (target.c):</strong> A simple C program that calls printf:</p>
             </ul>
-            <pre><code>#include &lt;stdio.h&gt;
-            int main() { printf("Hello, World! %d\n", 1); }</code></pre>
+            <pre><code>#include &lt;stdio.h&gt; 
+int main() { printf("Hello, World! %d\n", 1); }</code></pre>
             <p><strong>Compile target.c:</strong></p>
-            <pre><code class="language-bash">gcc target.c -o target</code></pre>
+            <pre><code class="language-bash">$ gcc target.c -o target</code></pre>
 
             <ul>
                 <p><strong>Hook Program (hook.c):</strong> Another C program compiled as a shared library to override
                     printf:</p>
             </ul>
             <pre><code>#include&lt;stdio.h&gt;
-            int printf(const char *format, ...) { puts("Successfully hooked printf()"); return 0; }</code></pre>
+int printf(const char *format, ...) { puts("Successfully hooked printf()"); return 0; }</code></pre>
             <p><strong>Compile hook.c into a shared library:</strong></p>
-            <pre><code class="language-bash">gcc hook.c -o hook.so -fPIC -shared -ldl</code></pre>
+            <pre><code class="language-bash">$ gcc hook.c -o hook.so -fPIC -shared -ldl</code></pre>
 
             <p>Now, we have our target program—and hook.so—our shared library containing the custom printf override.
                 Let's first run the target program by itself:</p>
-            <pre><code class="language-bash">./target</code></pre>
+            <pre><code class="language-bash">$ ./target</code></pre>
             <p><strong>Output:</strong> Hello, World!</p>
 
             <p>Now let's use LD_PRELOAD to inject hook.so into target:</p>
-            <pre><code>LD_PRELOAD="./hook.so" ./target</code></pre>
+            <pre><code>$ LD_PRELOAD="./hook.so" ./target</code></pre>
             <p><strong>Output:</strong> Successfully hooked printf()</p>
 
             <p>This shows that each instance of printf in target.c is linked to our custom printf function defined in
@@ -90,15 +106,15 @@
                 the code, indicating that printf gets optimized to puts dynamically at runtime. Knowing this, we can
                 modify our hook.c program to override puts instead.</p>
             <pre><code>#include &lt;stdio.h&gt;
-            int puts(const char *s){ printf("Hooked - Original printf: %s\n", s); return 0; }</code></pre>
+int puts(const char *s){ printf("Hooked - Original printf: %s\n", s); return 0; }</code></pre>
 
             <p>And adjust target.c to use printf with a single parameter:</p>
             <pre><code >#include &lt;stdio.h&gt;
-            int main() { printf("Hello, World!\n"); }
-            </code></pre>
+int main() { printf("Hello, World!\n"); }
+</code></pre>
 
             <p>Compile and run with LD_PRELOAD as before:</p>
-            <pre><code>LD_PRELOAD="./hook.so" ./target</code></pre>
+            <pre><code>$ LD_PRELOAD="./hook.so" ./target</code></pre>
             <p><strong>Output:</strong> Hooked - Original printf: Hello, World!</p>
             <p>This demonstrates that by overriding puts, we indirectly hooked instances of printf that are optimized to
                 puts by the compiler.</p>

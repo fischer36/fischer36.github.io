@@ -1,3 +1,4 @@
+
 async function getPostList() {
     try {
         const response = await fetch('./posts.json');
@@ -45,7 +46,7 @@ async function renderPosts() {
                 // Extract text content with safe fallback
                 const titleText = titleElement ? titleElement.textContent : 'Untitled';
                 const dateText = dateElement ? dateElement.textContent : 'No Date';
-                const bodyText = bodyElement ? bodyElement.textContent.slice(0, 130) + '...' : 'No content available';
+                const bodyText = bodyElement ? bodyElement.textContent.slice(0, 160) + '...' : 'No content available';
 
                 // Extract tags if they exist
                 const tags = tagsElement ? Array.from(tagsElement.querySelectorAll('li')).map(tag => tag.textContent) : ["fuck off"];
@@ -100,5 +101,6 @@ async function renderPosts() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await renderPosts();
+
 });
 

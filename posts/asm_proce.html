@@ -8,6 +8,23 @@
     <script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../style.css">
 
+<!-- Include Highlight.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+
+  <!-- Include Highlight.js JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/x86asm.min.js" integrity="sha512-tp43S2YfafEU7aebJfvq/qi4pBjRIFvZ8jXTD1TXk1uMHUSEMO+qXzAvjyh/Shy4prCZDaRL1pgINu0YyK/xlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/1c.min.js" integrity="sha512-ELcLUEQzYlYEVNeBa8iR3xp92lYTYOo2iYWMAqQ5Wt3na7rb06PMCfO8CHlyCMmJaZW7tzj6OjUwg5RJLbeyXQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js" integrity="sha512-4ea7XTSjSgnYA2UCmeriRmmIfJ5iXR562Y8faBB+y3BKcwftFMofy6ff0wX4A4UmR155PlFghb5np+WrAVIoaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/rust.min.js" integrity="sha512-TS2u6t34Pqmip8LfVZUyujKXRANq/hMgbf47v8YKYCt+v4wXHWBdZEcomRrFGNHinuMQBR0YbgCiteFZF2M8ew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    hljs.highlightAll();
+  });
+</script>
 </head>
 
 <body>
@@ -67,7 +84,7 @@
                 the procedure.
             </p>
             <h2>Example Usage:</h2>
-            <pre><code class="language-asm">section .text
+            <pre><code>section .text
 global _start
 
 ; Declare procedure foo
