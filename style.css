@@ -160,6 +160,9 @@ h2 {
     margin-bottom: 0rem;
 }
 
+.post b {
+background-color: black;
+}
 .post p {
     font-size: 1.1rem;
     margin-bottom: 1.0em;
@@ -231,10 +234,6 @@ h2 {
 
     padding-left: 40px;
     list-style-type: none;
-}
-
-.post b {
-    background-color: black;
 }
 .post li {
 
