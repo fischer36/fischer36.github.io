@@ -109,7 +109,7 @@ Output: hi</code></pre>
 ; \x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7
 ; \x01\x00\x00\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48
 ; \xc7\xc0\x3c\x00\x00\x00\x48\xc7\xc7\x45\x00\x00\x00\x0f\x05\x58\xc3</code></pre>
-<p>demo.c - C program to verify the shellcode:</p>
+<p><b>demo.c</b> - C program to verify the shellcode:</p>
 <pre><code>#include &lt;stdio.h&gt;
 __attribute__((section(".text"))) static char code[] = // Our payload
     "\x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7\x01\x00\x00"
@@ -127,7 +127,7 @@ $ ./demo
 Output: hi // Successful payload execution
 </code></pre>
         <h2 id="inject">Injection and Execution</h2>
-        <p>injector.c - This program will inject and execute our payload in a target process using ptrace.</p>
+        <p><b>injector.c</b> - This program will inject and execute our payload in a target process using ptrace.</p>
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;

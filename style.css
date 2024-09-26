@@ -233,6 +233,9 @@ h2 {
     list-style-type: none;
 }
 
+.post b {
+    background-color: black;
+}
 .post li {
 
     list-style-type: none;
