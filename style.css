@@ -41,6 +41,9 @@ html {
 .list-item .title a {
     font-size: 18px; 
     color: #fff; 
+
+    text-underline-offset: 0.3rem;
+text-decoration-thickness: 0.1em;
 }
 
   .list-item .title a:hover {
@@ -57,6 +60,9 @@ html {
 .list-item .readmore {
     color: white;
     font-size: 15px; 
+
+    text-underline-offset: 0.3rem;
+text-decoration-thickness: 0.1em;
 }
 
   .list-item .readmore:hover {
@@ -81,7 +87,7 @@ header {
     text-align: center;
     justify-content: space-between;
 
-    background-color: rgba(120, 122, 124, 0.363);
+  background-color: rgb(46, 45, 45);
 
     border: 1px solid rgba(255, 255, 255, 0.3);
 
@@ -96,7 +102,7 @@ header {
 
 header h1 {
 
-    font-size: 24px;
+    font-size: 20px;
 
 
 }
@@ -130,8 +136,9 @@ nav ul li a {
     font-size: 16px;
     padding: auto;
     color: #fff;
-    text-decoration: none;
     transition: background-color 0.3s;
+    text-underline-offset: 0.3rem;
+text-decoration-thickness: 0.1em;
     width: 10px;
     height: 10px;
     text-align: center;
@@ -140,7 +147,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: rgb(26, 25, 25);
+    background-color: red;
 }
 
 main {
@@ -163,4 +170,81 @@ h2 {
     font-size: 1.2rem;
     margin-bottom: 20px;
     color:white;
+}
+.post {
+  color:white;
+
+    font-family: 'Geist-Regular', sans-serif; /* Use Geist-Regular for body text */
+}
+.post .tags {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+.post li{
+  margin-right: 0.5rem;
+  background-color: rgb(46, 45, 45);
+  padding: 0.1rem 0.2rem;
+}
+.post .date {
+  color:gray;
+  font-size: 1.0rem;
+}
+.post h1{
+    font-size: 1.6rem;
+}
+.post h2{
+
+    font-size: 1.4rem;
+}
+.post p{
+    font-size: 0.8rem;
+}
+
+.post a {
+color:white;
+    text-underline-offset: 0.3rem;
+
+text-decoration-thickness: 0.1em;
+}
+.post a:hover {
+background-color: red;
+}
+.post .readmore {
+  
+    text-underline-offset: 0.3rem;
+
+text-decoration-thickness: 0.1em;
+}
+.post pre {
+    padding: 16px; /* Padding inside the code block */
+    overflow: auto; /* Enable scrolling for long code blocks */
+    margin: 16px 0; /* Margin to separate from surrounding content */
+    font-size: 10px; /* Font size for better readability */
+    line-height: 1.5; /* Line height for spacing between lines */
+}
+
+.post code {
+    background-color: rgb(46, 45, 45);
+    color: white; /* Color for inline code text */
+    padding: 2px 4px; /* Padding for inline code */
+    margin: 5px 5px;
+}
+a {
+  color:white;
+
+    text-underline-offset: 0.3rem;
+
+
+text-decoration-thickness: 0.1em;
+}
+
+a:hover{
+  background-color:red;
+
+    text-underline-offset: 0.3rem;
+
+
+text-decoration-thickness: 0.1em;
 }

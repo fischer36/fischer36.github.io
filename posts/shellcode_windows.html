@@ -9,8 +9,15 @@
     <script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../style.css">
 
-<!-- Include Highlight.js CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 
   <!-- Include Highlight.js JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
@@ -56,7 +63,7 @@
         <h2 id="creating">Creating shellcode</h2>
 <p>To create our payload, we will first create an assembly program—consisting of our desired payload behaviour, that we will disassemble into shellcode.</p>
         <p><b>asm.s</b> - Our basic assembly program contains an entry point that calls "proc" and then exits through syscalls, and a procedure that prints "hi" to stdout and then exits—before returning to the entry point caller.
-       <pre><code>.global _start
+       <pre><code style="font-size:0.8rem;">.global _start
 .intel_syntax noprefix
 
 
@@ -79,13 +86,13 @@ proc:
     pop rax # pop hi
     ret # return to _start</code></pre>
 <p>Let's compile and run our assembly program:</p>
-<pre><code>$ as asm.s -o asm.o 
+<pre><code style="font-size:0.8rem;">$ as asm.s -o asm.o 
 $ ld asm.o -o asm
 $ ./asm 
 Output: hi</code></pre>
 
     <p>Now that we have our assembly program, we will use objdump in order to extract the shellcode for our "proc" procedure:</p>
-<pre><code>$ objdump -D asm 
+<pre><code style="font-size:0.8rem;">$ objdump -D asm 
 
 0000000000401000 <_start>:
   401000:	e8 10 00 00 00       	call   401015 <proc>
@@ -111,7 +118,7 @@ Output: hi</code></pre>
 ; \x01\x00\x00\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48
 ; \xc7\xc0\x3c\x00\x00\x00\x48\xc7\xc7\x45\x00\x00\x00\x0f\x05\x58\xc3</code></pre>
 <p><b>demo.c</b> - C program to verify the shellcode:</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code style="font-size:0.8rem;">#include &lt;stdio.h&gt;
 __attribute__((section(".text"))) static char code[] = // Our payload
     "\x68\x68\x69\x00\x00\x48\xc7\xc0\x01\x00\x00\x00\x48\xc7\xc7\x01\x00\x00"
     "\x00\x48\x89\xe6\x48\xc7\xc2\x02\x00\x00\x00\x0f\x05\x48\xc7\xc0\x3c\x00"
@@ -123,13 +130,13 @@ int main(int argc, char *argv[]) {
   return 1;
 }</code></pre>
 <p>Compile and run demo.c:</p>
-<pre><code>$ gcc demo.c -o demo 
+<pre><code style="font-size:0.8rem;">$ gcc demo.c -o demo 
 $ ./demo
 Output: hi // Successful payload execution
 </code></pre>
         <h2 id="inject">Injection and Execution</h2>
         <p><b>injector.c</b> - This program will inject and execute our payload in a target process using ptrace.</p>
-<pre><code>#include &lt;stdio.h&gt;
+<pre><code style="font-size:0.8rem;">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
 #include &lt;sys/ptrace.h&gt;
@@ -234,7 +241,7 @@ int main(int argc, char *argv[]) {
   }
 }</code></pre>       
  <p>Compile and run the injector with the target process id (pid):</p>
- <pre><code>$ gcc injector.c -o injector
+ <pre><code style="font-size:0.8rem;">$ gcc injector.c -o injector
 $ ./injector 1234
 
 The target process with pid 1234, prints "hi" and then exit.</code></pre>       

@@ -8,8 +8,16 @@
     <script src="https://kit.fontawesome.com/29844f2f13.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../style.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 <!-- Include Highlight.js CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+
 
   <!-- Include Highlight.js JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
@@ -67,7 +75,7 @@
             <ul>
                 <p><strong>Target Program (target.c):</strong> A simple C program that calls printf:</p>
             </ul>
-            <pre><code>#include &lt;stdio.h&gt; 
+            <pre><code style="font-size:0.8rem;">#include &lt;stdio.h&gt; 
 int main() { printf("Hello, World! %d\n", 1); }</code></pre>
             <p><strong>Compile target.c:</strong></p>
             <pre><code class="language-bash">$ gcc target.c -o target</code></pre>
@@ -76,7 +84,7 @@ int main() { printf("Hello, World! %d\n", 1); }</code></pre>
                 <p><strong>Hook Program (hook.c):</strong> Another C program compiled as a shared library to override
                     printf:</p>
             </ul>
-            <pre><code>#include&lt;stdio.h&gt;
+            <pre><code style="font-size:0.8rem;">#include&lt;stdio.h&gt;
 int printf(const char *format, ...) { puts("Successfully hooked printf()"); return 0; }</code></pre>
             <p><strong>Compile hook.c into a shared library:</strong></p>
             <pre><code class="language-bash">$ gcc hook.c -o hook.so -fPIC -shared -ldl</code></pre>
@@ -87,7 +95,7 @@ int printf(const char *format, ...) { puts("Successfully hooked printf()"); retu
             <p><strong>Output:</strong> Hello, World!</p>
 
             <p>Now let's use LD_PRELOAD to inject hook.so into target:</p>
-            <pre><code>$ LD_PRELOAD="./hook.so" ./target</code></pre>
+            <pre><code style="font-size:0.8rem;">$ LD_PRELOAD="./hook.so" ./target</code></pre>
             <p><strong>Output:</strong> Successfully hooked printf()</p>
 
             <p>This shows that each instance of printf in target.c is linked to our custom printf function defined in
@@ -106,7 +114,7 @@ int printf(const char *format, ...) { puts("Successfully hooked printf()"); retu
             <p>On the contrary, when I statically disassembled each program using objdump, there was no difference in
                 the code, indicating that printf gets optimized to puts dynamically at runtime. Knowing this, we can
                 modify our hook.c program to override puts instead.</p>
-            <pre><code>#include &lt;stdio.h&gt;
+            <pre><code style="font-size:0.8rem;">#include &lt;stdio.h&gt;
 int puts(const char *s){ printf("Hooked - Original printf: %s\n", s); return 0; }</code></pre>
 
             <p>And adjust target.c to use printf with a single parameter:</p>
@@ -115,7 +123,7 @@ int main() { printf("Hello, World!\n"); }
 </code></pre>
 
             <p>Compile and run with LD_PRELOAD as before:</p>
-            <pre><code>$ LD_PRELOAD="./hook.so" ./target</code></pre>
+            <pre><code style="font-size:0.8rem;">$ LD_PRELOAD="./hook.so" ./target</code></pre>
             <p><strong>Output:</strong> Hooked - Original printf: Hello, World!</p>
             <p>This demonstrates that by overriding puts, we indirectly hooked instances of printf that are optimized to
                 puts by the compiler.</p>
