@@ -1,8 +1,8 @@
 {
     "posts": [
 
-        "shellcode_windows.html",
-        "elf_proc.html",
-        "asm_proce.html"
+        "./posts/shellcode_windows.html",
+        "./posts/elf_proc.html",
+        "./posts/asm_proce.html"
     ]
 }
