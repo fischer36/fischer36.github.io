@@ -21,6 +21,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/bash.min.js" integrity="sha512-4ea7XTSjSgnYA2UCmeriRmmIfJ5iXR562Y8faBB+y3BKcwftFMofy6ff0wX4A4UmR155PlFghb5np+WrAVIoaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/rust.min.js" integrity="sha512-TS2u6t34Pqmip8LfVZUyujKXRANq/hMgbf47v8YKYCt+v4wXHWBdZEcomRrFGNHinuMQBR0YbgCiteFZF2M8ew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 <script>
   document.addEventListener("DOMContentLoaded", (event) => {
     hljs.highlightAll();
@@ -29,91 +30,60 @@
 </head>
 
 <body>
-    <header>
-        <h1>Fischer's Lab</h1>
-        <nav>
 
-            <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="./about.html">About</a></li>
-                <li><a href="https://github.com/fischer36" aria-label="Github"><i class="fab fa-github"></i></a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+        <header>
+            <h1>Fischer's Lab</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="./about.html">About</a></li>
+                    <li><a href="https://github.com/fischer36" aria-label="Github"><i class="fab fa-github"></i></a></li>
+                </ul>
+            </nav>
+        </header>
+    <div class="container">
     <main class="post">
         <article>
-            <h1>Understanding Assembly Procedures</h1>
-            <p class="date">Aug 22, 2024</p>
+            <h1>Sample Title</h1>
+            <p class="date">Aug 01, 2000</p>
             <ul class="tags">
-                <li>Assembly</li>
-                <li>Procedures</li>
+                <li>Sample Tag 1</li>
+                <li>Sample Tag 2</li>
             </ul>
 
             <hr>
             </hr>
             <h2>
-                Procedural Definitions:</h2>
-            <p><b>Base Pointer (EBP/RBP)</b>: The base pointer is a register (<b>EBP</b> in 32-bit systems, <b>RBP</b>
-                in 64-bit systems) that holds the memory address marking the <b>start of a function's stack frame</b>.
-                It serves as a fixed reference point to access function parameters (above the base pointer) and local
-                variables (below the base pointer).</p>
-            <p><b>Stack Pointer (ESP/RSP)</b>: The stack pointer is a register (<b>ESP</b> in 32-bit systems, <b>RSP</b>
-                in 64-bit systems) that tracks the <b>top of the stack</b>. It is automatically updated by the CPU
-                during <b>push</b> and <b>pop</b> operations. The stack grows <b>downwards in memory</b>—as more
-                variables are pushed onto the stack, the stack pointer is decremented (moving to lower memory
-                addresses). Conversely, it is incremented as values are popped off the stack.</p>
-            <h2>How It Works:</h2>
-            <p><b>Returns</b>: After a procedure finishes, it must <b>clean up its stack frame</b> so that the stack
-                pointer (<b>ESP</b>/<b>RSP</b>) points to the <b>return address</b>, which was pushed onto the stack by
-                the caller before the procedure was called. To return a value to the caller, the procedure <b>places the
-                    return value</b> in the <b>EAX</b> register (in 32-bit systems) or the <b>RAX</b> register (in
-                64-bit systems). This return value can then be accessed by the caller immediately after the procedure
-                returns.</p>
-            <p><b>Parameters</b>: Parameters are passed by the caller either on the <b>stack</b> or via <b>registers</b>
-                (depending on the architecture and calling convention). In 32-bit systems, parameters are typically
-                pushed onto the stack and can be accessed by the called procedure as <b>offsets from the base
-                    pointer</b>. For example, the first parameter would be located at [<b>EBP + 8</b>].</p>
-            <p><b>Return Address</b>: When a procedure is called using the <b>call</b> instruction, the CPU
-                automatically <b>pushes the return address</b> (the address of the next instruction in the caller) onto
-                the stack. This return address will be used by the called procedure when it finishes execution, allowing
-                the program to return control to the correct point in the caller.</p>
-            <p><b>Call and Ret</b>: The <b>call</b> instruction not only jumps to the target procedure but also
-                <b>stores the return address</b> (the location of the next instruction after the call) onto the stack.
-                When the procedure is ready to return, it uses the <b>ret</b> instruction to <b>pop the return
-                    address</b> off the stack and jump back to it. The <b>ret</b> instruction simply transfers control
-                back to the caller by jumping to the return address, assuming the stack has been properly cleaned up by
-                the procedure.
-            </p>
-            <h2>Example Usage:</h2>
-            <pre><code>section .text
-global _start
+                Sample H2</h2>
+            <p>
+            Sample Paragraph<sup><a href="#fn1">[1]</sup></a>
+            Sample Paragraph 1
+</p>
+            <p>
 
-; Declare procedure foo
-foo:
-    push ebp            ; Save the old base pointer
-    mov ebp, esp        ; Set base pointer to current stack pointer
-    ; [Procedure code would go here]
-    pop ebp             ; Restore the old base pointer
-    ret                 ; Return to the address at the top of the stack
-
-_start:
-    ; Call procedure foo
-    call foo
-    ; [Further instructions after foo returns]
+            Sample Paragraph 2
+            Sample Paragraph 2
+</p>
+            <pre><code>// Sample Code
+            fn sample_function() {
+              return
+            }
 </code></pre>
-            <h2>Experimenting:</h2>
-            <p>Understanding how functions work under the hood - down at the assembly level - allows you to operate
-                beyond
-                the boundaries of any compiled language function. By incorporating assembly code within your C or Rust
-                programs
-                you gain the capability to directly manipulate return and parameter values and the stack itself;
-                breaking the fourth wall. If you are interested in learning more the
-                following demonstrates the topic in Rust using inline assembly:
-                <a href="https://github.com/fischer36/implicit-returns">Visit GitHub Repository</a>
-            </p>
+<h1>References</h1>
+<hr>
+<ol>
+  <li id="fn1">Sample Footnote </li>
+</ol>
         </article>
     </main>
+    </div>
+    <!-- Footer Section -->
+    <footer>
+        <hr>
+        <div class="footer-content">
+            <a href="https://github.com/fischer36" aria-label="Github"><i class="fab fa-github"></i></a>
+            <a href="https://x.com/Fischer3636" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <p>© 2024 Fischer36</p>
+        </div>
+    </footer>
 </body>
-
-</html>

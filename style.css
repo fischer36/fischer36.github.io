@@ -1,144 +1,95 @@
+/* Font Faces */
 @font-face {
-    font-family: 'Geist-bold'; /* Name for the bold font */
-    src: url('./JetBrainsMonoNerdFont-Bold.ttf') format('truetype'); /* Correct format */
+    font-family: 'Geist-bold';
+    src: url('./JetBrainsMonoNerdFont-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Geist-regular';
+    src: url('./JetBrainsMonoNerdFont-Regular.ttf') format('truetype');
 }
 
-@font-face {
-    font-family: 'Geist-regular'; /* Name for the bold font */
-    src: url('./JetBrainsMonoNerdFont-Regular.ttf') format('truetype'); /* Correct format */
+/* General Page Setup */
+html {
+    scroll-behavior: smooth;
 }
-body,
-ul {
-      font-family: 'Roboto Mono', monospace;
-  font-size: 16px;
+
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-.mainxd {
-    display: flex; 
-    justify-content: center; 
-    align-items: flex-start; 
-    flex-direction: column; 
-}
-
-.list-item {
-    color: red; 
-    justify-content: center; 
-    align-items: center;
-    display: block;
-    block-size: auto;
-    width: auto; 
-
-    height: auto;
-}
-
-.list-item .title a {
-    font-size: 18px; 
-    color: #fff; 
-
-    text-underline-offset: 0.3rem;
-text-decoration-thickness: 0.1em;
-}
-
-  .list-item .title a:hover {
-    background-color: red; 
-}
-.list-item br {
-}
-
-.list-item .date {
-    font-size: 15px; 
-    color: gray; 
-}
-
-.list-item .readmore {
-    color: white;
-    font-size: 15px; 
-
-    text-underline-offset: 0.3rem;
-text-decoration-thickness: 0.1em;
-}
-
-  .list-item .readmore:hover {
-    background-color: red; 
-}
-body {
-
-
+body, ul {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
     background-color: #181818;
     color: #333;
     align-items: center;
     justify-content: center;
     text-align: center;
-
 }
 
+/* Main Container */
+.container {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    margin: auto;
+    width: 40%;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    display: block;
+}
+
+/* Header */
 header {
     display: flex;
     flex-direction: row;
-
     align-items: center;
-    text-align: center;
     justify-content: space-between;
-
-  background-color: rgb(46, 45, 45);
-
+    background-color: rgb(46, 45, 45);
     border: 1px solid rgba(255, 255, 255, 0.3);
-
-    overflow-x: scroll;
-
-
     border-radius: 2px;
     color: #fff;
-    margin: 1.0rem 1.0rem;
-
+    margin: 1rem;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    text-align: center;
+    height: 50px;
 }
 
 header h1 {
-
     font-size: 20px;
-
-
-}
-
-
-nav {
-
+    margin: 1rem;
 }
 
 nav ul {
-
     list-style: none;
     display: flex;
     justify-content: center;
+    background-color: transparent;
 }
 
 nav ul li {
-    margin: 1rem 1rem;
-}
-
-header h1 {
-    margin: 1rem 1rem;
-
+    margin: 1rem;
 }
 
 nav ul li a {
-
     display: inline list-item;
-
-
     font-size: 16px;
-    padding: auto;
     color: #fff;
     transition: background-color 0.3s;
     text-underline-offset: 0.3rem;
-text-decoration-thickness: 0.1em;
+    text-decoration-thickness: 0.1em;
     width: 10px;
     height: 10px;
     text-align: center;
@@ -150,101 +101,162 @@ nav ul li a:hover {
     background-color: red;
 }
 
-main {
-    padding: 20px 20px;
-    margin: auto auto;
-    width: 40%;
-    text-align: left;
-    justify-content: center;
-align-items: center;
-display: block;
-}
-p {
+/* Typography */
+p, .post p {
     font-size: 1.0rem;
     margin-bottom: 20px;
-    color:white;
-}     
-h2 {
+    color: white;
+}
 
-    font-family: 'Geist-Bold', sans-serif; /* Use Geist-Regular for body text */
+h2 {
+    font-family: 'Geist-Bold', sans-serif;
     font-size: 1.2rem;
     margin-bottom: 20px;
-    color:white;
+    color: white;
 }
-.post {
-  color:white;
 
-    font-family: 'Geist-Regular', sans-serif; /* Use Geist-Regular for body text */
+.post h1 {
+    font-size: 1.6rem;
+    padding: 0;
+    margin: 0;
 }
+
+.post h2 {
+    font-size: 1.4rem;
+}
+
+/* Link Styling */
+a, .post a {
+    color: white;
+    text-underline-offset: 0.3rem;
+    text-decoration-thickness: 0.1em;
+}
+
+a:hover, .post a:hover {
+    background-color: red;
+}
+
+/* Post Styling */
+.post {
+    color: white;
+    font-family: 'Geist-Regular', sans-serif;
+}
+
+/* Tags Styling */
 .post .tags {
+  justify-content: left;
+
   display: flex;
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
 }
-.post li{
-  margin-right: 0.5rem;
-  background-color: rgb(46, 45, 45);
-  padding: 0.1rem 0.2rem;
-}
-.post .date {
-  color:gray;
-  font-size: 1.0rem;
-}
-.post h1{
-    font-size: 1.6rem;
-}
-.post h2{
 
-    font-size: 1.4rem;
-}
-.post p{
-    font-size: 0.8rem;
+.post ul {
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
 }
 
-.post a {
-color:white;
+.post li {
+    margin-right: 0.5rem;
+    padding: 0.1rem 0.2rem;
+  background-color: #333;
+}
+
+.post .date, .list-item .date {
+    color: gray;
+    margin: 0.5rem 0rem;
+    font-size: 1.0rem;
+}
+
+.post .readmore, .list-item .readmore {
+    color: white;
+    font-size: 15px;
     text-underline-offset: 0.3rem;
+    text-decoration-thickness: 0.1em;
+}
 
-text-decoration-thickness: 0.1em;
+.post .readmore:hover, .list-item .readmore:hover {
+    background-color: red;
 }
-.post a:hover {
-background-color: red;
-}
-.post .readmore {
-  
-    text-underline-offset: 0.3rem;
 
-text-decoration-thickness: 0.1em;
-}
 .post pre {
-    padding: 16px; /* Padding inside the code block */
-    overflow: auto; /* Enable scrolling for long code blocks */
-    margin: 16px 0; /* Margin to separate from surrounding content */
-    font-size: 10px; /* Font size for better readability */
-    line-height: 1.5; /* Line height for spacing between lines */
+    padding: 16px;
+    overflow: auto;
+    margin: 16px 0;
+    font-size: 10px;
+    line-height: 1.5;
 }
 
 .post code {
     background-color: rgb(46, 45, 45);
-    color: white; /* Color for inline code text */
-    padding: 2px 4px; /* Padding for inline code */
+    color: white;
+    padding: 2px 4px;
     margin: 5px 5px;
 }
-a {
-  color:white;
 
-    text-underline-offset: 0.3rem;
-
-
-text-decoration-thickness: 0.1em;
+/* List Item Styling */
+.mainxd {
+    display: block;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
 }
 
-a:hover{
-  background-color:red;
+.list-item {
+    color: red;
+    justify-content: center;
+    align-items: center;
+    display: block;
+    block-size: auto;
+    width: auto;
+    height: auto;
+}
 
+.list-item .title a {
+    font-size: 18px;
+    color: #fff;
     text-underline-offset: 0.3rem;
+    text-decoration-thickness: 0.1em;
+}
 
+.list-item .title a:hover {
+    background-color: red;
+}
 
-text-decoration-thickness: 0.1em;
+/* Footer Styling */
+footer {
+
+  height: 20px;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-content a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-content i {
+    width: 24px;
+    height: 15px;
+}
+
+footer hr {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #ccc;
+    margin: 10px 0;
 }
